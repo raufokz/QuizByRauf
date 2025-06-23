@@ -1,12 +1,5 @@
-// app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { QuizComponent } from './pages/quiz/quiz.component';
-import { ResultsComponent } from './pages/results/results.component';
-import { ReviewComponent } from './pages/review/review.component';
-import { HistoryComponent } from './pages/history/history.component';
-import { QuizSelectionComponent } from './pages/quiz-selection/quiz-selection.component';
-import { HomeComponent } from './pages/home/home.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
 const routes: Routes = [
@@ -15,26 +8,40 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'home', component: HomeComponent },
-      { path: 'quiz-selection', component: QuizSelectionComponent },
-   {
-        path: 'quiz/:category',
-        component: QuizComponent,
-        data: {
-          prerender: true // Mark this route as prerenderable
-        }
+      {
+        path: 'home',
+        loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
       },
-      { path: 'results', component: ResultsComponent },
-      { path: 'review', component: ReviewComponent },
-      { path: 'history', component: HistoryComponent },
+      {
+        path: 'quiz-selection',
+        loadComponent: () => import('./pages/quiz-selection/quiz-selection.component').then(m => m.QuizSelectionComponent)
+      },
+      {
+        path: 'quiz/:category',
+        loadComponent: () => import('./pages/quiz/quiz.component').then(m => m.QuizComponent),
+        data: { prerender: true }
+      },
+      {
+        path: 'results',
+        loadComponent: () => import('./pages/results/results.component').then(m => m.ResultsComponent)
+      },
+      {
+        path: 'review',
+        loadComponent: () => import('./pages/review/review.component').then(m => m.ReviewComponent)
+      },
+      {
+        path: 'history',
+        loadComponent: () => import('./pages/history/history.component').then(m => m.HistoryComponent)
+      },
     ]
   },
   { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    initialNavigation: 'enabledBlocking'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
