@@ -17,12 +17,11 @@ const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'quiz-selection', component: QuizSelectionComponent },
-      {
+   {
         path: 'quiz/:category',
         component: QuizComponent,
         data: {
-          renderMode: 'prerender',
-          getPrerenderParams: (route) => ({ category: route.params.category })
+          prerender: true // Mark this route as prerenderable
         }
       },
       { path: 'results', component: ResultsComponent },

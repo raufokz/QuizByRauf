@@ -67,7 +67,14 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
-              "entry": "src/server.ts"
+              "entry": "src/server.ts",
+              "prerender": true,
+              "routes": [
+                "/",
+                "/home",
+                "/quiz-selection",
+                ...categories.map(category => `/quiz/${category}`)
+              ]
             }
           },
           "configurations": {
@@ -139,3 +146,4 @@
     "analytics": "c4459afb-a570-4515-8c61-bb6bea8eaddf"
   }
 }
+

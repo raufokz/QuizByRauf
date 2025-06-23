@@ -1,3 +1,4 @@
+import { APP_BASE_HREF } from '@angular/common';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -7,6 +8,8 @@ import {
 import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { existsSync } from 'fs';
+import { join } from 'path';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -14,21 +17,23 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+// Categories for prerendering
+export const categories = [
+  'biology',
+  'engineering',
+  'computer science',
+  'arts',
+  'general knowledge',
+  'mathematics',
+  'chemistry',
+  'pakistan studies',
+  'islamic_studies',
+  'current_affairs',
+  'physics',
+  'english'
+];
 
-/**
- * Serve static files from /browser
- */
+// Serve static files from /browser
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
@@ -37,10 +42,8 @@ app.use(
   }),
 );
 
-/**
- * Handle all other requests by rendering the Angular application.
- */
-app.use('/**', (req, res, next) => {
+// Handle all requests with Angular Universal
+app.get('*', (req, res, next) => {
   angularApp
     .handle(req)
     .then((response) =>
@@ -49,10 +52,7 @@ app.use('/**', (req, res, next) => {
     .catch(next);
 });
 
-/**
- * Start the server if this module is the main entry point.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
- */
+// Start the server if this module is the main entry point
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
   app.listen(port, () => {
@@ -60,7 +60,8 @@ if (isMainModule(import.meta.url)) {
   });
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
+// Export the prerender params
+export const prerenderRoutes = categories.map(category => `/quiz/${category}`);
+
+// Request handler
 export const reqHandler = createNodeRequestHandler(app);
