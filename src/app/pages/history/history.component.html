@@ -1,0 +1,66 @@
+<div class="container history-container">
+  <h2 class="mb-4">Quiz History</h2>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <div *ngIf="quizHistory.length === 0" class="alert alert-info">
+      No quiz history found. Complete a quiz to see your history.
+    </div>
+
+    <div *ngFor="let quiz of quizHistory" class="card mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ quiz.category | titlecase }}</strong>
+          <span class="ms-2 text-muted">
+            {{ quiz.date | date:'medium' }}
+          </span>
+        </div>
+        <span class="badge" [ngClass]="{
+          'bg-primary': quiz.quizMode === 'practice',
+          'bg-warning': quiz.quizMode === 'timed',
+          'bg-danger': quiz.quizMode === 'exam'
+        }">
+          {{ quiz.quizMode | titlecase }}
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="progress mb-3">
+              <div class="progress-bar"
+                   [style.width]="(quiz.score / quiz.total) * 100 + '%'">
+                {{ (quiz.score / quiz.total * 100).toFixed(1) }}%
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex justify-content-between">
+              <span class="badge bg-success">
+                Correct: {{ quiz.score }}
+              </span>
+              <span class="badge bg-danger">
+                Incorrect: {{ quiz.total - quiz.score }}
+              </span>
+              <span class="badge bg-secondary">
+                Time: {{ formatTime(quiz.timeSpent) }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-outline-primary mt-2"
+                (click)="viewDetails(quiz)">
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

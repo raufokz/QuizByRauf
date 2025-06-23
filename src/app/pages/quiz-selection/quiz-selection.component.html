@@ -1,0 +1,107 @@
+<div class="quiz-selection-container">
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <h1 class="hero-title">Expand Your Knowledge</h1>
+    <p class="hero-subtitle">Choose your challenge and test your expertise</p>
+    <div class="features-grid">
+      <div class="feature-item">
+        <i class="bi bi-lightning-charge-fill"></i>
+        <span>Quick Quizzes</span>
+      </div>
+      <div class="feature-item">
+        <i class="bi bi-bar-chart-fill"></i>
+        <span>Track Progress</span>
+      </div>
+      <div class="feature-item">
+        <i class="bi bi-trophy-fill"></i>
+        <span>Earn Badges</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Settings Panel -->
+  <section class="settings-panel">
+    <div class="settings-card glass-card">
+      <div class="settings-header">
+        <i class="bi bi-tune"></i>
+        <h2>Quiz Configuration</h2>
+      </div>
+      <div class="settings-body">
+        <div class="setting-group">
+          <label>Questions</label>
+          <select class="form-select" [(ngModel)]="selectedQuestionCount">
+            <option *ngFor="let count of questionCountOptions" [value]="count">{{ count }}</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label>Difficulty</label>
+          <select class="form-select" [(ngModel)]="difficulty">
+            <option value="mixed">Mixed</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div class="setting-group toggle-group">
+          <label>Enable Timer</label>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="enableTimer">
+            <span class="slider"></span>
+          </label>
+          <span class="pro-badge">PRO</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Grid -->
+  <section class="categories-section">
+    <h2 class="section-title">Choose Your Category</h2>
+
+    <div class="categories-grid">
+      <ng-container *ngIf="!loading; else loadingState">
+        <div class="category-card" *ngFor="let category of categories"
+             [class.popular]="isPopular(category)"
+             (click)="startQuiz(category)"
+             [class.disabled]="getQuestionCount(category) < selectedQuestionCount">
+          <div class="category-icon">
+            <i [class]="getCategoryIcon(category)"></i>
+          </div>
+          <h3 class="category-title">{{ category | titlecase }}</h3>
+          <div class="progress-container">
+            <div class="progress-bar"
+                 [style.width]="(getQuestionCount(category) / maxQuestions * 100) + '%'"></div>
+          </div>
+          <p class="question-count">{{ getQuestionCount(category) }} questions</p>
+          <button class="start-button">
+            Begin Challenge
+            <i class="bi bi-arrow-right"></i>
+          </button>
+          <div class="popular-tag" *ngIf="isPopular(category)">Trending</div>
+        </div>
+      </ng-container>
+
+      <ng-template #loadingState>
+        <div class="category-card loading" *ngFor="let item of [1,2,3,4,5,6]">
+          <div class="category-icon shimmer"></div>
+          <h3 class="category-title shimmer"></h3>
+          <div class="progress-container shimmer"></div>
+          <p class="question-count shimmer"></p>
+          <div class="start-button shimmer"></div>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="categories.length === 0 && !loading">
+    <div class="empty-content">
+      <i class="bi bi-book"></i>
+      <h3>No Categories Available</h3>
+      <p>We're working on adding more quiz categories</p>
+      <button class="refresh-button" (click)="loadCategories()">
+        <i class="bi bi-arrow-repeat"></i> Refresh
+      </button>
+    </div>
+  </div>
+</div>

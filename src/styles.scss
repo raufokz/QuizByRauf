@@ -1,1 +1,222 @@
-/* You can add global styles to this file, and also import other style files */
+// Light Theme (Default)
+:root {
+  // Primary Colors
+  --primary-color: #4361ee;
+  --primary-light: #e6e9ff;
+  --primary-dark: #3a56d4;
+
+  // Background Colors
+  --bg-color: #f8f9fa;
+  --surface-color: #ffffff;
+  --card-color: #ffffff;
+
+  // Text Colors
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --bs-secondary-color: #6c757d;
+
+  // Border & Divider
+  --border-color: #e9ecef;
+  --divider-color: #dee2e6;
+
+  // Status Colors
+  --success-color: #2ecc71;
+  --warning-color: #f39c12;
+  --danger-color: #e74c3c;
+  --info-color: #3498db;
+
+  // Sidebar
+  --sidebar-bg: #2c3e50;
+  --sidebar-text: #ecf0f1;
+  --sidebar-active: #34495e;
+
+  // Navbar
+  --navbar-bg: #ffffff;
+  --navbar-text: #212529;
+
+  --accordion-bg: #ffffff;
+  --accordion-active-bg: #f8f9fa;
+  --accordion-border: #e9ecef;
+  --accordion-text: #212529;
+  --accordion-active-text: #4361ee;
+
+  // Options List
+  --option-bg: #f8f9fa;
+  --option-text: #495057;
+  --option-letter-bg: #e9ecef;
+  --correct-option-bg: rgba(46, 204, 113, 0.1);
+  --correct-option-border: #2ecc71;
+
+  // Table
+  --table-header-bg: #f8f9fa;
+  --table-row-even: #ffffff;
+  --table-row-odd: #f8f9fa;
+  --table-border: #e9ecef;
+    --td_container_transparent: #ffffff;
+  --text-black: #000;
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #000;
+  --sidebar-active: #785bf8;
+  --navbar-bg: #ffffff;
+}
+
+// Dark Theme
+.dark-theme {
+  // Primary Colors
+  --primary-color: #5a7dff;
+  --primary-light: #2a3a6e;
+  --primary-dark: #4a6bff;
+
+  // Background Colors
+  --bg-color: #121212;
+  --surface-color: #1e1e1e;
+  --card-color: #2d2d2d;
+
+  // Text Colors
+  --text-primary: #f8f9fa;
+  --text-secondary: #adb5bd;
+  --bs-secondary-color: #adb5bd;
+
+  // Border & Divider
+  --border-color: #343a40;
+  --divider-color: #495057;
+
+  // Status Colors
+  --success-color: #27ae60;
+  --warning-color: #e67e22;
+  --danger-color: #c0392b;
+  --info-color: #2980b9;
+
+  // Sidebar
+  --sidebar-bg: #1a1a1a;
+  --sidebar-text: #f8f9fa;
+  --sidebar-active: #2d2d2d;
+
+  // Navbar
+  --navbar-bg: #2d2d2d;
+  --navbar-text: #f8f9fa;
+
+  // Accordion
+  --accordion-bg: #2d2d2d;
+  --accordion-active-bg: #3a3a3a;
+  --accordion-border: #444;
+  --accordion-text: #f8f9fa;
+  --accordion-active-text: #5a7dff;
+  --bs-accordion-btn-bg: #3a3a3a !important;
+  --bs-accordion-btn-color: #f8f9fa !important;
+--bs-accordion-bg: #2d2d2d !important;
+  // Options List
+  --option-bg: #3a3a3a;
+  --option-text: #e9ecef;
+  --option-letter-bg: #444;
+  --correct-option-bg: rgba(39, 174, 96, 0.2);
+  --correct-option-border: #27ae60;
+
+  // Table
+  --table-header-bg: #3a3a3a;
+  --table-row-even: #2d2d2d;
+  --table-row-odd: #333;
+  --table-border: #444;
+  --td_container_transparent: #2d2d2d;
+  --text-black: #fff;
+  --sidebar-bg: #1a1a1a;
+  --sidebar-text: #f8f9fa;
+  --sidebar-active: #5a7dff;
+  --navbar-bg: #2d2d2d;
+
+
+
+
+
+
+
+.accordion-button {
+background-color: #3a3a3a !important;
+color: #f8f9fa !important;
+}
+}
+// Base Styles
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Common Components
+.card {
+  background-color: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+
+  .card-header {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .card-body {
+    color: var(--text-secondary);
+  }
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+
+  &:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+  }
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--primary-dark);
+  }
+}
+
+// Font Awesome (if not already included)
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+// Sidebar and Navbar transitions
+.sidebar, .navbar {
+  transition: all 0.3s ease;
+}
+
+// Mobile overlay for sidebar
+@media (max-width: 992px) {
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}

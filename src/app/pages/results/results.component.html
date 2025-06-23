@@ -1,0 +1,114 @@
+<div class="container results-container">
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+    <button class="btn btn-sm btn-primary ms-2" routerLink="/quiz-selection">
+      Take a Quiz
+    </button>
+  </div>
+
+  <div *ngIf="quizData && !loading" class="quiz-results">
+    <div class="results-header text-center mb-5">
+      <h2>Quiz Results</h2>
+      <div class="score-display my-4">
+        <div class="score-circle mx-auto">
+          {{ (quizData.score / quizData.total * 100).toFixed(1) }}%
+        </div>
+        <div class="score-details mt-3">
+          <span class="badge bg-success me-2">
+            Correct: {{ quizData.score }}
+          </span>
+          <span class="badge bg-danger me-2">
+            Incorrect: {{ quizData.total - quizData.score }}
+          </span>
+          <span class="badge bg-primary me-2">
+            Total: {{ quizData.total }}
+          </span>
+          <span class="badge bg-secondary">
+            Time: {{ formatTime(quizData.timeSpent) }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-tabs mb-4">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="currentTab === 'questions'"
+             (click)="changeTab('questions')">Questions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="currentTab === 'categories'"
+             (click)="changeTab('categories')">Categories</a>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="currentTab === 'questions'">
+      <div *ngFor="let result of quizData.answers; let i = index" class="card mb-3">
+        <div class="card-header" [ngClass]="{
+          'bg-success-light': result.isCorrect,
+          'bg-danger-light': !result.isCorrect
+        }">
+          <strong>Question {{ i + 1 }}:</strong> {{ result.question.question }}
+        </div>
+        <div class="card-body">
+          <div *ngFor="let option of result.question.options; let j = index"
+               class="option mb-2 p-2 rounded"
+               [ngClass]="{
+                 'bg-success': j === result.question.answer,
+                 'bg-danger': result.selected === j && !result.isCorrect
+               }">
+            <span class="option-letter me-2">{{ getOptionLetter(j) }}</span>
+            {{ option }}
+          </div>
+          <div *ngIf="result.question.explanation" class="mt-3 p-2 bg-light rounded">
+            <strong>Explanation:</strong> {{ result.question.explanation }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="currentTab === 'categories'" class="category-stats">
+      <div class="row">
+        <div *ngFor="let category of getCategories()" class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-header">
+              <strong>{{ category }}</strong>
+            </div>
+            <div class="card-body">
+              <div class="progress mb-2">
+                <div class="progress-bar"
+                     [style.width]="(getCategoryScore(category).correct / getCategoryScore(category).total) * 100 + '%'">
+                  {{ (getCategoryScore(category).correct / getCategoryScore(category).total * 100).toFixed(1) }}%
+                </div>
+              </div>
+              <div>
+                <span class="badge bg-success me-2">
+                  Correct: {{ getCategoryScore(category).correct }}
+                </span>
+                <span class="badge bg-danger">
+                  Incorrect: {{ getCategoryScore(category).total - getCategoryScore(category).correct }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button class="btn btn-primary me-2" (click)="retakeQuiz()">
+        Retake Quiz
+      </button>
+      <button class="btn btn-secondary" routerLink="/quiz-selection">
+        New Quiz
+      </button>
+    </div>
+  </div>
+</div>

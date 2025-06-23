@@ -1,0 +1,84 @@
+<div class="container quiz-container" *ngIf="!quizCompleted">
+  <div class="quiz-header">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>{{ category | titlecase }} Quiz</h2>
+      <div class="timer">{{ formatTime(timeSpent) }}</div>
+    </div>
+
+    <div class="progress mb-3">
+      <div class="progress-bar"
+           [style.width]="(currentQuestionIndex + 1) / questions.length * 100 + '%'">
+        Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-question card mb-4">
+    <div class="card-body">
+      <h4 class="card-title">{{ currentQuestion.question }}</h4>
+    </div>
+  </div>
+
+  <div class="quiz-options">
+    <div *ngFor="let option of currentQuestion.options; let i = index"
+         class="option card mb-2"
+         [class.correct]="showResult && i === currentQuestion.answer"
+         [class.incorrect]="showResult && selectedOption === i && selectedOption !== currentQuestion.answer"
+         [class.selected]="selectedOption === i && !showResult"
+         (click)="selectOption(i)">
+      <div class="card-body">
+        <div class="option-content">
+          <span class="option-letter">{{ getOptionLetter(i) }}</span>
+          <span class="option-text">{{ option }}</span>
+          <span class="option-feedback ms-auto">
+            <i class="fas fa-check" *ngIf="showResult && i === currentQuestion.answer"></i>
+            <i class="fas fa-times" *ngIf="showResult && selectedOption === i && selectedOption !== currentQuestion.answer"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-footer mt-4">
+    <button class="btn btn-secondary me-2"
+            (click)="previousQuestion()"
+            [disabled]="currentQuestionIndex === 0">
+      Previous
+    </button>
+    <button class="btn btn-primary"
+            (click)="nextQuestion()"
+            [disabled]="selectedOption === null && !showResult">
+      {{ showResult ? 'Continue' : (currentQuestionIndex < questions.length - 1 ? 'Next' : 'Submit') }}
+    </button>
+  </div>
+</div>
+
+<div class="container results-container" *ngIf="quizCompleted">
+  <div class="results-header text-center mb-5">
+    <div class="result-icon mb-3">
+      <i class="fas fa-trophy"></i>
+    </div>
+    <h2>Quiz Completed!</h2>
+    <div class="score-display">
+      You scored {{ score }} out of {{ questions.length }}
+    </div>
+    <div class="progress mt-3">
+      <div class="progress-bar bg-success"
+           [style.width]="(score / questions.length) * 100 + '%'">
+        {{ (score / questions.length) * 100 | number:'1.0-0' }}%
+      </div>
+    </div>
+  </div>
+
+  <div class="action-buttons text-center mt-4">
+    <button class="btn btn-primary me-2" (click)="viewResults()">
+      View Detailed Results
+    </button>
+    <button class="btn btn-outline-primary me-2" (click)="retakeQuiz()">
+      Retake Quiz
+    </button>
+    <button class="btn btn-secondary" routerLink="/quiz-selection">
+      New Quiz
+    </button>
+  </div>
+</div>

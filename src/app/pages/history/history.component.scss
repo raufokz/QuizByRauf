@@ -1,0 +1,26 @@
+.history-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--card-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 20px var(--shadow-color);
+}
+
+.card {
+  border: 1px solid var(--border-color);
+
+  .card-header {
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+  }
+
+  .progress {
+    height: 10px;
+    background-color: var(--border-color);
+
+    .progress-bar {
+      background-color: var(--primary-color);
+    }
+  }
+}

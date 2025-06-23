@@ -1,0 +1,737 @@
+[
+    {
+        "category": "medical",
+        "question": "Which gland is known as the 'master gland'?",
+        "options": ["Thyroid", "Pituitary", "Adrenal", "Pancreas"],
+        "answer": 1
+    },
+    {
+        "category": "medical",
+        "question": "What is the normal pH of human blood?",
+        "options": ["7.0", "7.4", "8.0", "6.8"],
+        "answer": 1
+    },
+
+    {
+        "category": "engineering",
+        "question": "What does EMF stand for in electrical engineering?",
+        "options": ["Electromagnetic Field", "Electromotive Force", "Electronic Measurement Factor", "Electromagnetic Frequency"],
+        "answer": 1
+    },
+
+    {
+        "category": "computer",
+        "question": "Which protocol is used for secure web communication?",
+        "options": ["HTTP", "FTP", "HTTPS", "SMTP"],
+        "answer": 2
+    },
+
+    {
+        "category": "arts",
+        "question": "Who wrote the book 'The Struggle for Pakistan'?",
+        "options": ["I.H. Qureshi", "Stanley Wolpert", "Ayesha Jalal", "Christina Lamb"],
+        "answer": 0
+    },
+    {
+        "category": "medical",
+        "question": "Which part of the brain is responsible for maintaining balance?",
+        "options": ["Cerebrum", "Cerebellum", "Medulla", "Thalamus"],
+        "answer": 1
+    },
+    {
+        "category": "medical",
+        "question": "Which vitamin is essential for blood clotting?",
+        "options": ["Vitamin A", "Vitamin C", "Vitamin K", "Vitamin D"],
+        "answer": 2
+    },
+    {
+        "category": "engineering",
+        "question": "What is the unit of electrical resistance?",
+        "options": ["Ampere", "Volt", "Ohm", "Watt"],
+        "answer": 2
+    },
+    {
+        "category": "engineering",
+        "question": "Which law states that current is directly proportional to voltage?",
+        "options": ["Faraday's Law", "Ohm's Law", "Lenz's Law", "Kirchhoff's Law"],
+        "answer": 1
+    },
+    {
+        "category": "computer",
+        "question": "Which component is considered the brain of the computer?",
+        "options": ["RAM", "Hard Drive", "CPU", "GPU"],
+        "answer": 2
+    },
+    {
+        "category": "computer",
+        "question": "Which of the following is a programming language?",
+        "options": ["HTML", "Python", "HTTP", "SQL"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "Who painted the Mona Lisa?",
+        "options": ["Pablo Picasso", "Leonardo da Vinci", "Vincent van Gogh", "Michelangelo"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "Which country is known for the art of Origami?",
+        "options": ["China", "Japan", "India", "Korea"],
+        "answer": 1
+    },
+    {
+        "category": "general knowledge",
+        "question": "Which planet is known as the Red Planet?",
+        "options": ["Earth", "Mars", "Jupiter", "Venus"],
+        "answer": 1
+    },
+    {
+        "category": "general knowledge",
+        "question": "What is the capital of Canada?",
+        "options": ["Toronto", "Ottawa", "Vancouver", "Montreal"],
+        "answer": 1
+    },
+    {
+        "category": "medical",
+        "question": "Which of the following is NOT a function of the liver?",
+        "options": [
+            "Production of bile",
+            "Storage of glycogen",
+            "Synthesis of plasma proteins",
+            "Filtration of blood"
+        ],
+        "answer": 3
+    },
+
+    
+    {
+        "category": "engineering",
+        "question": "The SI unit of electrical resistance is:",
+        "options": [
+            "Ohm",
+            "Volt",
+            "Ampere",
+            "Watt"
+        ],
+        "answer": 0
+    },
+    
+    {
+        "category": "computer",
+        "question": "Which data structure uses LIFO principle?",
+        "options": [
+            "Queue",
+            "Stack",
+            "Array",
+            "Tree"
+        ],
+        "answer": 1
+    },
+    
+    {
+        "category": "arts",
+        "question": "The 'Objectives Resolution' was passed by the Constituent Assembly of Pakistan in:",
+        "options": [
+            "1947",
+            "1949",
+            "1956",
+            "1962"
+        ],
+        "answer": 1
+    },
+    {
+        "category": "medical",
+        "question": "What is the largest part of the human brain?",
+        "options": ["Cerebellum", "Medulla", "Cerebrum", "Pons"],
+        "answer": 2
+    },
+    {
+        "category": "medical",
+        "question": "Which organ in the human body filters blood to produce urine?",
+        "options": ["Lungs", "Liver", "Kidneys", "Pancreas"],
+        "answer": 2
+    },
+    {
+        "category": "engineering",
+        "question": "Which device is used to measure electric current?",
+        "options": ["Voltmeter", "Ammeter", "Ohmmeter", "Galvanometer"],
+        "answer": 1
+    },
+    {
+        "category": "engineering",
+        "question": "What type of current is supplied to households?",
+        "options": ["AC", "DC", "Pulsed DC", "None"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "What does CPU stand for?",
+        "options": ["Central Processing Unit", "Computer Processing Unit", "Central Programming Unit", "Control Processing Unit"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "Which language is primarily used for web development?",
+        "options": ["Python", "C++", "JavaScript", "Java"],
+        "answer": 2
+    },
+    {
+        "category": "arts",
+        "question": "Who is the national poet of Pakistan?",
+        "options": ["Faiz Ahmed Faiz", "Allama Iqbal", "Ahmed Faraz", "Habib Jalib"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "The famous painting 'Starry Night' was painted by:",
+        "options": ["Pablo Picasso", "Leonardo da Vinci", "Vincent van Gogh", "Claude Monet"],
+        "answer": 2
+    },
+    {
+        "category": "general knowledge",
+        "question": "Which continent has the largest population?",
+        "options": ["Africa", "Europe", "Asia", "South America"],
+        "answer": 2
+    },
+    {
+        "category": "general knowledge",
+        "question": "Who was the first Prime Minister of Pakistan?",
+        "options": ["Liaquat Ali Khan", "Muhammad Ali Jinnah", "Zulfikar Ali Bhutto", "Iskander Mirza"],
+        "answer": 0
+    },
+    {
+        "category": "medical",
+        "question": "Which of these is the largest gland in the human body?",
+        "options": ["Thyroid", "Liver", "Pancreas", "Pituitary"],
+        "answer": 1
+    },
+    {
+        "category": "medical",
+        "question": "How many bones are there in an adult human body?",
+        "options": ["206", "300", "150", "250"],
+        "answer": 0
+    },
+    {
+        "category": "medical",
+        "question": "Which blood type is the universal donor?",
+        "options": ["A", "B", "AB", "O"],
+        "answer": 3
+    },
+    {
+        "category": "medical",
+        "question": "The study of teeth is called:",
+        "options": ["Orthopedics", "Dermatology", "Dentistry", "Odontology"],
+        "answer": 3
+    },
+    {
+        "category": "medical",
+        "question": "Which organ produces insulin?",
+        "options": ["Liver", "Pancreas", "Kidney", "Stomach"],
+        "answer": 1
+    },
+    {
+        "category": "medical",
+        "question": "Malaria is caused by:",
+        "options": ["Bacteria", "Virus", "Protozoa", "Fungus"],
+        "answer": 2
+    },
+    {
+        "category": "medical",
+        "question": "The normal human body temperature is:",
+        "options": ["98.6°F", "100.4°F", "96.8°F", "95°F"],
+        "answer": 0
+    },
+    {
+        "category": "medical",
+        "question": "Which part of the eye is responsible for its color?",
+        "options": ["Retina", "Cornea", "Iris", "Pupil"],
+        "answer": 2
+    },
+
+    {
+        "category": "engineering",
+        "question": "The unit of frequency is:",
+        "options": ["Hertz", "Decibel", "Ohm", "Watt"],
+        "answer": 0
+    },
+    {
+        "category": "engineering",
+        "question": "The transformer works on the principle of:",
+        "options": ["Self induction", "Mutual induction", "Electrostatics", "Electromagnetism"],
+        "answer": 1
+    },
+    {
+        "category": "engineering",
+        "question": "The hardest known material is:",
+        "options": ["Gold", "Iron", "Diamond", "Graphite"],
+        "answer": 2
+    },
+    {
+        "category": "engineering",
+        "question": "The SI unit of power is:",
+        "options": ["Joule", "Watt", "Volt", "Ampere"],
+        "answer": 1
+    },
+    {
+        "category": "engineering",
+        "question": "Which law states that every action has an equal and opposite reaction?",
+        "options": ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Archimedes' Principle"],
+        "answer": 2
+    },
+    {
+        "category": "engineering",
+        "question": "The process of converting AC to DC is called:",
+        "options": ["Amplification", "Rectification", "Modulation", "Oscillation"],
+        "answer": 1
+    },
+    {
+        "category": "engineering",
+        "question": "Which material is the best conductor of electricity?",
+        "options": ["Iron", "Copper", "Silver", "Aluminum"],
+        "answer": 2
+    },
+    {
+        "category": "engineering",
+        "question": "The chemical formula of water is:",
+        "options": ["HO", "H2O", "H2O2", "H3O"],
+        "answer": 1
+    },
+
+    {
+        "category": "computer",
+        "question": "What does CPU stand for?",
+        "options": ["Central Processing Unit", "Computer Processing Unit", "Central Process Unit", "Computer Process Unit"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "Which of these is not a programming language?",
+        "options": ["Java", "Python", "HTML", "C++"],
+        "answer": 2
+    },
+    {
+        "category": "computer",
+        "question": "What does RAM stand for?",
+        "options": ["Random Access Memory", "Read Access Memory", "Rapid Access Memory", "Random Available Memory"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "Which company developed the Windows operating system?",
+        "options": ["Apple", "Microsoft", "IBM", "Google"],
+        "answer": 1
+    },
+    {
+        "category": "computer",
+        "question": "What does 'HTTP' stand for?",
+        "options": ["HyperText Transfer Protocol", "High Transfer Text Protocol", "Hyper Transfer Text Protocol", "High Text Transfer Protocol"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "Which of these is a database management system?",
+        "options": ["MySQL", "HTML", "CSS", "JavaScript"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "What is the binary equivalent of decimal 10?",
+        "options": ["1010", "1001", "1100", "1111"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "Which of these is not an operating system?",
+        "options": ["Linux", "Windows", "MacOS", "Photoshop"],
+        "answer": 3
+    },
+
+    {
+        "category": "arts",
+        "question": "Who is known as the 'Poet of the East'?",
+        "options": ["Mirza Ghalib", "Allama Iqbal", "Faiz Ahmed Faiz", "Josh Malihabadi"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "The national poet of Pakistan is:",
+        "options": ["Habib Jalib", "Ahmed Faraz", "Allama Iqbal", "Mir Taqi Mir"],
+        "answer": 2
+    },
+    {
+        "category": "arts",
+        "question": "The first Governor-General of Pakistan was:",
+        "options": ["Liaquat Ali Khan", "Quaid-e-Azam", "Iskander Mirza", "Ayub Khan"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "Pakistan's national anthem was written by:",
+        "options": ["Allama Iqbal", "Hafeez Jalandhari", "Faiz Ahmed Faiz", "Ahmed Faraz"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "The Lahore Resolution was passed in:",
+        "options": ["1940", "1947", "1956", "1935"],
+        "answer": 0
+    },
+    {
+        "category": "arts",
+        "question": "The first capital of Pakistan was:",
+        "options": ["Islamabad", "Karachi", "Lahore", "Rawalpindi"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "Pakistan's national flower is:",
+        "options": ["Rose", "Jasmine", "Tulip", "Sunflower"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "The Khyber Pass connects Pakistan with:",
+        "options": ["China", "India", "Afghanistan", "Iran"],
+        "answer": 2
+    },
+
+    {
+        "category": "general knowledge",
+        "question": "The largest ocean in the world is:",
+        "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
+        "answer": 3
+    },
+    {
+        "category": "general knowledge",
+        "question": "The currency of Japan is:",
+        "options": ["Dollar", "Yen", "Euro", "Pound"],
+        "answer": 1
+    },
+    {
+        "category": "general knowledge",
+        "question": "The longest river in the world is:",
+        "options": ["Nile", "Amazon", "Indus", "Yangtze"],
+        "answer": 0
+    },
+    {
+        "category": "general knowledge",
+        "question": "The largest continent by area is:",
+        "options": ["Africa", "Asia", "Europe", "North America"],
+        "answer": 1
+    },
+    {
+        "category": "general knowledge",
+        "question": "The chemical symbol for gold is:",
+        "options": ["Go", "Gd", "Au", "Ag"],
+        "answer": 2
+    },
+    {
+        "category": "general knowledge",
+        "question": "Which planet is closest to the sun?",
+        "options": ["Earth", "Venus", "Mercury", "Mars"],
+        "answer": 2
+    },
+    {
+        "category": "general knowledge",
+        "question": "The largest democracy in the world is:",
+        "options": ["USA", "China", "India", "Russia"],
+        "answer": 2
+    },
+    {
+        "category": "general knowledge",
+        "question": "The first man to walk on the moon was:",
+        "options": ["Yuri Gagarin", "Neil Armstrong", "Buzz Aldrin", "John Glenn"],
+        "answer": 1
+    },
+        {
+        "category": "medical",
+        "question": "Which vitamin is produced by the human body when exposed to sunlight?",
+        "options": ["Vitamin A", "Vitamin B12", "Vitamin D", "Vitamin K"],
+        "answer": 2
+    },
+    {
+        "category": "medical",
+        "question": "The smallest bone in the human body is found in the:",
+        "options": ["Ear", "Finger", "Toe", "Nose"],
+        "answer": 0
+    },
+    {
+        "category": "medical",
+        "question": "Which blood cells are responsible for immune defense?",
+        "options": ["Erythrocytes", "Leukocytes", "Thrombocytes", "Platelets"],
+        "answer": 1
+    },
+        {
+        "category": "engineering",
+        "question": "In civil engineering, M20 concrete refers to:",
+        "options": ["20mm aggregate size", "20N/mm² compressive strength", "20kg cement content", "20cm slab thickness"],
+        "answer": 1
+    },
+    {
+        "category": "engineering",
+        "question": "The Young's Modulus measures a material's:",
+        "options": ["Electrical conductivity", "Thermal expansion", "Stiffness", "Density"],
+        "answer": 2
+    },
+    {
+        "category": "engineering",
+        "question": "A diode primarily allows current to flow:",
+        "options": ["In both directions", "Only in reverse direction", "Only in forward direction", "In alternating directions"],
+        "answer": 2
+    },
+        {
+        "category": "computer",
+        "question": "In OOP, encapsulation refers to:",
+        "options": ["Hiding implementation details", "Creating multiple instances", "Inheriting properties", "Overloading functions"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "The time complexity of binary search is:",
+        "options": ["O(n)", "O(n²)", "O(log n)", "O(1)"],
+        "answer": 2
+    },
+    {
+        "category": "computer",
+        "question": "Which protocol dynamically assigns IP addresses?",
+        "options": ["HTTP", "FTP", "DHCP", "SMTP"],
+        "answer": 2
+    },
+        {
+        "category": "arts",
+        "question": "The Mughal emperor who built the Taj Mahal was:",
+        "options": ["Akbar", "Jahangir", "Shah Jahan", "Aurangzeb"],
+        "answer": 2
+    },
+    {
+        "category": "arts",
+        "question": "The ancient university of Taxila was located in present-day:",
+        "options": ["India", "Pakistan", "Afghanistan", "Iran"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "Pakistan's first Nobel Prize winner was:",
+        "options": ["Abdus Salam", "Malala Yousafzai", "Benazir Bhutto", "Imran Khan"],
+        "answer": 0
+    },
+        {
+        "category": "general knowledge",
+        "question": "The Great Pyramid of Giza is located in:",
+        "options": ["Iraq", "Egypt", "Libya", "Sudan"],
+        "answer": 1
+    },
+    {
+        "category": "general knowledge",
+        "question": "The chemical symbol 'Hg' represents:",
+        "options": ["Gold", "Mercury", "Hydrogen", "Helium"],
+        "answer": 1
+    },
+    {
+        "category": "general knowledge",
+        "question": "The International Space Station orbits Earth every:",
+        "options": ["60 minutes", "90 minutes", "24 hours", "365 days"],
+        "answer": 1
+    },
+        {
+        "category": "medical",
+        "question": "Which enzyme breaks down lactose in the digestive system?",
+        "options": ["Amylase", "Lipase", "Lactase", "Pepsin"],
+        "answer": 2
+    },
+    {
+        "category": "medical",
+        "question": "The mitral valve is located between which two heart chambers?",
+        "options": ["Right atrium and right ventricle", "Left atrium and left ventricle", "Right ventricle and pulmonary artery", "Left ventricle and aorta"],
+        "answer": 1
+    },
+    {
+        "category": "medical",
+        "question": "Which of these is NOT a component of the axial skeleton?",
+        "options": ["Skull", "Vertebral column", "Pelvis", "Ribs"],
+        "answer": 2
+    },
+    {
+        "category": "medical",
+        "question": "The medical term for high blood pressure is:",
+        "options": ["Hypotension", "Hypertension", "Tachycardia", "Bradycardia"],
+        "answer": 1
+    },
+        {
+        "category": "engineering",
+        "question": "In structural engineering, the point where maximum bending moment occurs is called:",
+        "options": ["Neutral axis", "Critical section", "Plastic hinge", "Shear center"],
+        "answer": 1
+    },
+    {
+        "category": "engineering",
+        "question": "The Carnot cycle consists of:",
+        "options": ["2 isothermal and 2 adiabatic processes", "2 isobaric and 2 isochoric processes", "3 isothermal and 1 adiabatic process", "1 isothermal and 3 adiabatic processes"],
+        "answer": 0
+    },
+    {
+        "category": "engineering",
+        "question": "The modulus of elasticity for steel is approximately:",
+        "options": ["2 GPa", "20 GPa", "200 GPa", "2000 GPa"],
+        "answer": 2
+    },
+        {
+        "category": "computer",
+        "question": "In networking, the purpose of a subnet mask is to:",
+        "options": ["Identify the network portion of an IP address", "Encrypt data packets", "Increase internet speed", "Block malicious websites"],
+        "answer": 0
+    },
+    {
+        "category": "computer",
+        "question": "Which sorting algorithm has the worst-case time complexity of O(n²)?",
+        "options": ["Merge sort", "Quick sort", "Heap sort", "Bubble sort"],
+        "answer": 3
+    },
+    {
+        "category": "computer",
+        "question": "The protocol used for sending email is:",
+        "options": ["HTTP", "FTP", "SMTP", "TCP"],
+        "answer": 2
+    },
+        {
+        "category": "arts",
+        "question": "The Simla Deputation met Lord Minto in:",
+        "options": ["1905", "1906", "1909", "1911"],
+        "answer": 1
+    },
+    {
+        "category": "arts",
+        "question": "Pakistan's National Anthem was first broadcast on radio in:",
+        "options": ["1947", "1950", "1954", "1956"],
+        "answer": 2
+    },
+    {
+        "category": "arts",
+        "question": "The length of Pakistan's border with Afghanistan is approximately:",
+        "options": ["1200 km", "2250 km", "3300 km", "4500 km"],
+        "answer": 1
+    },
+        {
+        "category": "general knowledge",
+        "question": "The deepest point in the ocean is located in the:",
+        "options": ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+        "answer": 3
+    },
+    {
+        "category": "general knowledge",
+        "question": "The largest desert in the world is:",
+        "options": ["Sahara", "Arabian", "Gobi", "Antarctic"],
+        "answer": 3
+    },
+    {
+        "category": "general knowledge",
+        "question": "The chemical symbol for potassium is:",
+        "options": ["Pt", "Po", "K", "Ka"],
+        "answer": 2
+    },
+        {
+        "category": "pakistan_studies",
+        "question": "The Objective Resolution was passed by the Constituent Assembly in:",
+        "options": ["March 1949", "August 1947", "February 1956", "June 1962"],
+        "answer": 0
+    },
+        {
+        "category": "islamiat",
+        "question": "The first revealed verses of the Quran are in Surah:",
+        "options": ["Al-Baqarah", "Al-Alaq", "Al-Fatiha", "Al-Ikhlas"],
+        "answer": 1
+    },
+        {
+        "category": "medical",
+        "question": "Which of these is NOT a function of the kidneys?",
+        "options": ["Blood filtration", "Erythropoietin production", "Vitamin D activation", "Bile production"],
+        "answer": 3
+    },
+    {
+        "category": "medical",
+        "question": "The neurotransmitter deficient in Parkinson's disease is:",
+        "options": ["Acetylcholine", "Dopamine", "Serotonin", "GABA"],
+        "answer": 1
+    },
+    {
+        "category": "medical",
+        "question": "Which cranial nerve controls eye movement?",
+        "options": ["Optic (II)", "Oculomotor (III)", "Trigeminal (V)", "Facial (VII)"],
+        "answer": 1
+    },
+        {
+        "category": "engineering",
+        "question": "The Reynolds number determines:",
+        "options": ["Thermal conductivity", "Flow regime (laminar/turbulent)", "Material hardness", "Electrical resistance"],
+        "answer": 1
+    },
+    {
+        "category": "engineering",
+        "question": "In civil engineering, the slump test measures:",
+        "options": ["Soil bearing capacity", "Concrete workability", "Steel tensile strength", "Brick absorption rate"],
+        "answer": 1
+    },
+    {
+        "category": "engineering",
+        "question": "A BJT transistor has how many PN junctions?",
+        "options": ["0", "1", "2", "3"],
+        "answer": 2
+    },
+        {
+        "category": "computer",
+        "question": "The time complexity of quicksort in worst case is:",
+        "options": ["O(n)", "O(n log n)", "O(n²)", "O(log n)"],
+        "answer": 2
+    },
+    {
+        "category": "computer",
+        "question": "In blockchain, 'nonce' refers to:",
+        "options": ["A type of cryptocurrency", "A number used once in mining", "Network node", "Encryption algorithm"],
+        "answer": 1
+    },
+    {
+        "category": "computer",
+        "question": "Which protocol resolves IP addresses to MAC addresses?",
+        "options": ["HTTP", "DNS", "ARP", "DHCP"],
+        "answer": 2
+    },
+        {
+        "category": "pakistan_affairs",
+        "question": "The Tashkent Declaration was signed after which war?",
+        "options": ["1948 War", "1965 War", "1971 War", "Kargil Conflict"],
+        "answer": 1
+    },
+    {
+        "category": "pakistan_affairs",
+        "question": "Pakistan's first female foreign minister was:",
+        "options": ["Benazir Bhutto", "Hina Rabbani Khar", "Sherry Rehman", "Asma Jahangir"],
+        "answer": 1
+    },
+        {
+        "category": "islamic_studies",
+        "question": "The Battle of Badr occurred in which Hijri year?",
+        "options": ["1 AH", "2 AH", "3 AH", "4 AH"],
+        "answer": 1
+    },
+    {
+        "category": "islamic_studies",
+        "question": "Which Surah is called 'The Heart of the Quran'?",
+        "options": ["Al-Fatiha", "Al-Baqarah", "Yaseen", "Al-Ikhlas"],
+        "answer": 2
+    },
+        {
+        "category": "current_affairs",
+        "question": "As of 2023, Pakistan's GDP growth rate is approximately:",
+        "options": ["0.3%", "3.5%", "6.2%", "9.1%"],
+        "answer": 0
+    },
+    {
+        "category": "current_affairs",
+        "question": "Pakistan recently signed a new IMF program worth:",
+        "options": ["$1.5 billion", "$3 billion", "$6.5 billion", "$10 billion"],
+        "answer": 1
+    }
+]
+
+

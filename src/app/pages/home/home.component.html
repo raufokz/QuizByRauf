@@ -1,0 +1,272 @@
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <div class="welcome-card">
+      <div class="welcome-content">
+        <div class="welcome-text">
+          <h2>Welcome back, {{userName}}!</h2>
+          <div class="welcome-meta">
+            <p class="lead">Ready for your next learning session?</p>
+            <div class="badge-group">
+              <span class="badge streak-badge" *ngIf="dailyStreak > 0">
+                <i class="fas fa-fire"></i> {{dailyStreak}} day streak
+              </span>
+              <span class="badge achievement-badge" *ngIf="nextAchievement">
+                <i class="fas fa-trophy"></i> Next: {{nextAchievement}}
+              </span>
+              <span class="badge challenge-badge" *ngIf="dailyChallenge?.completed > 0">
+                <i class="fas fa-check-circle"></i> {{dailyChallenge.completed}}/{{dailyChallenge.questionCount}} completed
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="welcome-actions">
+          <button class="btn btn-primary start-quiz-btn" routerLink="/quiz-selection">
+            <i class="fas fa-bolt"></i> Start New Quiz
+          </button>
+          <button class="btn btn-outline daily-challenge-btn" *ngIf="dailyChallenge" (click)="startDailyChallenge()">
+            <i class="fas fa-trophy"></i> Daily Challenge
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card" *ngFor="let stat of stats" [ngClass]="'stat-' + stat.color">
+        <div class="stat-content">
+          <div class="stat-text">
+            <div class="stat-title">{{stat.title}}</div>
+            <div class="stat-value">{{stat.value}}</div>
+            <div class="stat-progress" *ngIf="stat.progress">
+              <span [ngClass]="stat.progress > 0 ? 'positive' : 'negative'">
+                <i class="fas" [ngClass]="stat.progress > 0 ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+                {{stat.progress}}% from last week
+              </span>
+            </div>
+          </div>
+          <div class="stat-icon">
+            <i class="fas fa-{{stat.icon}}"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="main-content-grid">
+    <!-- Random Questions -->
+    <div class="random-questions-section">
+      <div class="section-card">
+        <div class="section-header">
+          <h3>Test Your Knowledge</h3>
+          <div class="header-actions">
+            <button class="btn btn-sm btn-refresh" (click)="refreshRandomQuestions()">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+            <button class="btn btn-sm btn-quick-quiz" (click)="startRandomQuiz()">
+              <i class="fas fa-bolt"></i> Quick Quiz
+            </button>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="questions-list">
+            <div *ngFor="let question of randomQuestions" class="question-card">
+              <div class="question-content">
+                <div class="question-meta">
+                  <span class="category-badge">{{question.category}}</span>
+                  <h4>{{question.question}}</h4>
+                </div>
+                <button class="btn btn-play" (click)="startQuizFromQuestion(question.category)">
+                  <i class="fas fa-play"></i>
+                </button>
+              </div>
+              <div class="question-options">
+                <span *ngFor="let option of question.options.slice(0, 2); let i = index"
+                      class="option-preview">
+                  {{getOptionLetter(i)}}. {{option}}
+                </span>
+                <span *ngIf="question.options.length > 2" class="more-options">
+                  +{{question.options.length - 2}} more
+                </span>
+              </div>
+            </div>
+            <div *ngIf="randomQuestions.length === 0" class="empty-state">
+              <i class="fas fa-question-circle"></i>
+              <p>No questions available</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Challenge -->
+    <div class="daily-challenge-section">
+      <div class="section-card">
+        <div class="section-header">
+          <h3>Daily Challenge</h3>
+          <span class="time-badge" *ngIf="dailyChallenge?.expires">
+            <i class="fas fa-clock"></i> {{timeUntilRefresh}}
+          </span>
+        </div>
+        <div class="section-body">
+          <div *ngIf="dailyChallenge; else noChallenge" class="challenge-content">
+            <div class="challenge-card">
+              <div class="challenge-header">
+                <div>
+                  <h4>{{dailyChallenge.category}} Challenge</h4>
+                  <p>Complete {{dailyChallenge.questionCount}} questions to earn rewards</p>
+                </div>
+                <span class="difficulty-badge">{{dailyChallenge.difficulty}}</span>
+              </div>
+
+              <div class="progress-container">
+                <div class="progress-info">
+                  <span>Progress</span>
+                  <span>{{dailyChallenge.completed}}/{{dailyChallenge.questionCount}} ({{(dailyChallenge.completed/dailyChallenge.questionCount)*100 | number:'1.0-0'}}%)</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width]="(dailyChallenge.completed/dailyChallenge.questionCount)*100 + '%'"></div>
+                </div>
+
+                <div class="reward-preview">
+                  <h5><i class="fas fa-medal"></i> Today's Reward</h5>
+                  <p>{{dailyChallenge.reward}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="challenge-actions">
+              <button class="btn btn-primary challenge-btn" (click)="startDailyChallenge()">
+                {{dailyChallenge.completed > 0 ? 'Continue Challenge' : 'Start Challenge'}}
+              </button>
+              <button class="btn btn-outline leaderboard-btn" (click)="viewChallengeLeaderboard()">
+                <i class="fas fa-trophy"></i> View Leaderboard
+              </button>
+            </div>
+          </div>
+
+          <ng-template #noChallenge>
+            <div class="empty-challenge">
+              <i class="fas fa-calendar-day"></i>
+              <h5>No Challenge Available</h5>
+              <p>Check back later for new challenges</p>
+              <button class="btn btn-outline refresh-btn" (click)="refreshDailyChallenge()">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Charts -->
+  <div class="charts-section">
+    <div class="charts-grid">
+      <!-- Overall Progress -->
+      <div class="progress-chart-section">
+        <div class="section-card">
+          <div class="section-header">
+            <h3>Your Progress</h3>
+            <select class="time-range-select" [(ngModel)]="progressTimeRange" (change)="updateProgressChart()">
+              <option value="7">Last 7 Days</option>
+              <option value="30">Last 30 Days</option>
+              <option value="90">Last 90 Days</option>
+              <option value="all">All Time</option>
+            </select>
+          </div>
+          <div class="section-body">
+            <div class="chart-container">
+              <canvas id="progressChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Performance -->
+      <div class="category-chart-section">
+        <div class="section-card">
+          <div class="section-header">
+            <h3>Performance by Category</h3>
+          </div>
+          <div class="section-body">
+            <div class="chart-container">
+              <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="chart-legend">
+              <span *ngFor="let cat of categoryPerformance; let i = index" class="legend-item">
+                <i class="fas fa-circle" [ngClass]="'color-' + i"></i> {{cat.category}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Sections Grid -->
+  <div class="bottom-sections-grid">
+    <!-- Recent Activity -->
+    <div class="activity-section">
+      <div class="section-card">
+        <div class="section-header">
+          <h3>Recent Activity</h3>
+          <button class="btn btn-refresh" (click)="loadRecentActivities()">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
+        <div class="section-body">
+          <div class="activity-feed">
+            <div *ngFor="let activity of recentActivities" class="activity-item">
+              <div class="activity-icon" [ngClass]="'bg-' + activity.color">
+                <i class="fas fa-{{activity.icon}}"></i>
+              </div>
+              <div class="activity-details">
+                <div class="activity-meta">
+                  <span class="activity-time">{{activity.date | timeAgo}}</span>
+                  <span *ngIf="activity.xp" class="activity-xp">
+                    +{{activity.xp}} <i class="fas fa-bolt"></i>
+                  </span>
+                </div>
+                <p class="activity-message">{{activity.message}}</p>
+                <div *ngIf="activity.category" class="activity-category">
+                  <span class="category-tag">{{activity.category}}</span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="recentActivities.length === 0" class="empty-state">
+              <i class="fas fa-inbox"></i>
+              <p>No recent activity found</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-section">
+      <div class="section-card">
+        <div class="section-header">
+          <h3>Quick Actions</h3>
+        </div>
+        <div class="section-body">
+          <div class="actions-grid">
+            <div *ngFor="let action of quickActions" class="action-card" [routerLink]="action.link">
+              <div class="action-icon" [ngClass]="'bg-' + action.color">
+                <i class="fas fa-{{action.icon}}"></i>
+              </div>
+              <h4>{{action.title}}</h4>
+              <p>{{action.description}}</p>
+              <div *ngIf="action.badge" class="action-badge">
+                <span>{{action.badge}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

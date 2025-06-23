@@ -1,0 +1,114 @@
+.quiz-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--card-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 20px var(--shadow-color);
+}
+
+.quiz-header {
+  margin-bottom: 2rem;
+
+  .timer {
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+
+  .progress-bar {
+    transition: width 0.3s ease;
+  }
+}
+
+.quiz-question {
+  background: var(--surface-color);
+  border-left: 4px solid var(--primary-color);
+
+  .card-title {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+}
+
+.quiz-options {
+  .option {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+
+    &:hover:not(.correct, .incorrect, .selected) {
+      background: var(--option-hover-bg);
+    }
+
+    &.selected {
+      border-left-color: var(--primary-color);
+      background: var(--primary-light);
+    }
+
+    &.correct {
+      border-left-color: var(--success-color);
+      background: var(--correct-option-bg);
+
+      .option-letter {
+        background: var(--success-color);
+        color: white;
+      }
+    }
+
+    &.incorrect {
+      border-left-color: var(--danger-color);
+      background: var(--incorrect-option-bg);
+
+      .option-letter {
+        background: var(--danger-color);
+        color: white;
+      }
+    }
+
+    .option-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .option-letter {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      border-radius: 50%;
+      background: var(--option-letter-bg);
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+
+    .option-text {
+      flex: 1;
+    }
+
+    .option-feedback {
+      color: var(--text-secondary);
+    }
+  }
+}
+
+.results-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--card-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 20px var(--shadow-color);
+
+  .result-icon {
+    font-size: 4rem;
+    color: var(--primary-color);
+  }
+
+  .score-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+  }
+}

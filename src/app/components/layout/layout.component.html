@@ -1,0 +1,84 @@
+<div class="wrapper" [ngClass]="{ 'collapsed': isSidebarCollapsed }">
+  <!-- Sidebar -->
+  <nav id="sidebar" [ngClass]="{ 'active': isSidebarCollapsed }">
+    <div class="sidebar-header">
+      <img src="/images/logo.png" alt="Logo" class="sidebar-logo" />
+
+    </div>
+
+    <ul class="list-unstyled components">
+<li>
+  <a routerLink="/home" routerLinkActive="active">
+    <i class="fas fa-home"></i>
+    Home
+  </a>
+</li>
+<li>
+  <a routerLink="/quiz-selection" routerLinkActive="active">
+    <i class="fas fa-question-circle"></i>
+    Quiz Selection
+  </a>
+</li>
+
+<!-- <li>
+  <a routerLink="/results" routerLinkActive="active">
+    <i class="fas fa-poll"></i>
+    Results
+  </a>
+</li> -->
+<li>
+  <a routerLink="/review" routerLinkActive="active">
+    <i class="fas fa-clipboard-check"></i>
+    Review
+  </a>
+</li>
+<li>
+  <a routerLink="/history" routerLinkActive="active">
+    <i class="fas fa-clock"></i>
+    History
+  </a>
+</li>
+
+    </ul>
+  </nav>
+
+  <!-- Page Content -->
+  <div id="content" [ngClass]="{ 'active': isSidebarCollapsed }">
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <!-- Sidebar toggle button -->
+    <button type="button" class="btn btn-info me-2" (click)="toggleSidebar()">
+      <i class="fas fa-align-left"></i>
+    </button>
+
+    <!-- Mobile collapse button -->
+    <!-- <button
+      class="btn btn-dark d-inline-block d-lg-none me-auto"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-align-justify"></i>
+    </button> -->
+
+    <!-- Theme toggle button always at the end -->
+    <div class="d-flex align-items-center ms-auto">
+      <button id="themeToggleBtn" (click)="toggleTheme()" class="btn btn-outline-secondary">
+        <i class="fas fa-moon" *ngIf="!isDarkTheme"></i>
+        <i class="fas fa-sun" *ngIf="isDarkTheme"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+
+
+    <div [@routeAnimations]="getRouteAnimationData()" style="overflow: hidden; position: relative;">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+  </div>
+</div>
+

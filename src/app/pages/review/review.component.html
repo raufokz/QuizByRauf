@@ -1,0 +1,59 @@
+<div class="container review-container my-4">
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+      <h2>Question Bank</h2>
+      <p class="text-muted">Review all available questions</p>
+    </div>
+    <div class="col-md-6 text-end">
+      <select class="form-select form-select-lg" [(ngModel)]="selectedCategory" (change)="filterQuestions()">
+        <option value="all">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category | titlecase }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="accordion" id="questionAccordion">
+    <div *ngFor="let question of filteredQuestions; let i = index" class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button"
+                [attr.data-bs-toggle]="'collapse'"
+                [attr.data-bs-target]="'#collapse' + i"
+                [attr.aria-expanded]="i === 0 ? 'true' : 'false'"
+                [attr.aria-controls]="'collapse' + i">
+          <span class="badge me-2 rounded-pill px-3 py-1"
+                [ngClass]="'bg-' + getCategoryColor(question.category)">
+            <i class="fas fa-book-open me-1"></i> {{ question.category | titlecase }}
+          </span>
+          <span class="fw-semibold text-wrap flex-grow-1">{{ question.question }}</span>
+          <span class="ms-auto small text-muted">Question {{ i + 1 }} of {{ filteredQuestions.length }}</span>
+        </button>
+      </h2>
+      <div [id]="'collapse' + i"
+           class="accordion-collapse collapse"
+           [class.show]="i === 0"
+           [attr.aria-labelledby]="'heading' + i"
+           data-bs-parent="#questionAccordion">
+        <div class="accordion-body">
+          <div class="options-list">
+            <div *ngFor="let option of question.options; let j = index"
+                 class="option"
+                 [class.correct]="j === question.answer">
+              <div class="option-letter">{{ getOptionLetter(j) }}</div>
+              <div class="option-text">{{ option }}</div>
+              <div class="option-status" *ngIf="j === question.answer">
+                <i class="fas fa-check-circle me-1"></i> Correct Answer
+              </div>
+            </div>
+          </div>
+          <div class="explanation mt-4 p-3 rounded border" *ngIf="question.explanation"
+               style="background: var(--surface-color);">
+            <h6 class="mb-2 text-primary"><i class="fas fa-info-circle me-1"></i> Explanation:</h6>
+            <p class="mb-0">{{ question.explanation }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

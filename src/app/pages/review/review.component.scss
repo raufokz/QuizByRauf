@@ -1,0 +1,102 @@
+.review-container {
+  .accordion-item {
+    background-color: var(--card-color);
+    border: 1px solid var(--accordion-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  .accordion-button {
+    background-color: var(--accordion-bg);
+    color: var(--accordion-text);
+    font-weight: 600;
+    padding: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &::after {
+      filter: invert(50%);
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    &:not(.collapsed) {
+      background-color: var(--accordion-active-bg);
+      color: var(--accordion-active-text);
+    }
+  }
+
+  .options-list {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--option-bg);
+    padding: 0.75rem 1rem;
+    color: var(--option-text);
+    position: relative;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+
+    &.correct {
+      background-color: var(--correct-option-bg);
+      border-color: var(--correct-option-border);
+    }
+
+    .option-letter {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--option-letter-bg);
+      color: var(--text-primary);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+    }
+
+    .option-status {
+      position: absolute;
+      right: 1rem;
+      font-size: 0.875rem;
+      color: var(--success-color);
+      display: flex;
+      align-items: center;
+
+      i {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+
+  select.form-select-lg {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-color);
+    color: var(--text-primary);
+    transition: border 0.2s ease;
+
+    &:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.1rem rgba(67, 97, 238, 0.25);
+    }
+  }
+}
