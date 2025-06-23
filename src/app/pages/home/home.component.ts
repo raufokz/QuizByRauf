@@ -16,7 +16,6 @@ import { ChallengeService } from '../../services/challenge.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
-  userName = 'Rauf';
   stats: any[] = [];
   progressTimeRange = '7';
   categoryPerformance: any[] = [];
