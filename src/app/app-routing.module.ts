@@ -19,7 +19,6 @@ const routes: Routes = [
       {
         path: 'quiz/:category',
         loadComponent: () => import('./pages/quiz/quiz.component').then(m => m.QuizComponent),
-        data: { prerender: true }
       },
       {
         path: 'results',
