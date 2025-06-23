@@ -17,7 +17,14 @@ const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'quiz-selection', component: QuizSelectionComponent },
-      { path: 'quiz/:category', component: QuizComponent },
+      {
+        path: 'quiz/:category',
+        component: QuizComponent,
+        data: {
+          renderMode: 'prerender',
+          getPrerenderParams: (route: { params: { category: any; }; }) => ({ category: route.params.category })
+        }
+      },
       { path: 'results', component: ResultsComponent },
       { path: 'review', component: ReviewComponent },
       { path: 'history', component: HistoryComponent },
@@ -31,3 +38,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
