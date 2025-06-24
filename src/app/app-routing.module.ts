@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
+import { HomeComponent } from './pages/home/home.component';
+import { QuizSelectionComponent } from './pages/quiz-selection/quiz-selection.component';
+import { QuizComponent } from './pages/quiz/quiz.component';
+import { ResultsComponent } from './pages/results/results.component';
+import { ReviewComponent } from './pages/review/review.component';
+import { HistoryComponent } from './pages/history/history.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -10,27 +16,27 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+        component: HomeComponent
       },
       {
         path: 'quiz-selection',
-        loadComponent: () => import('./pages/quiz-selection/quiz-selection.component').then(m => m.QuizSelectionComponent)
+        component: QuizSelectionComponent
       },
       {
         path: 'quiz/:category',
-        loadComponent: () => import('./pages/quiz/quiz.component').then(m => m.QuizComponent),
+        component: QuizComponent
       },
       {
         path: 'results',
-        loadComponent: () => import('./pages/results/results.component').then(m => m.ResultsComponent)
+        component: ResultsComponent
       },
       {
         path: 'review',
-        loadComponent: () => import('./pages/review/review.component').then(m => m.ReviewComponent)
+        component: ReviewComponent,
       },
       {
         path: 'history',
-        loadComponent: () => import('./pages/history/history.component').then(m => m.HistoryComponent)
+        component: HistoryComponent
       },
     ]
   },
