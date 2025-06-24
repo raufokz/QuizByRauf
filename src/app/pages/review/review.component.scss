@@ -1,57 +1,83 @@
 .review-container {
+  --accordion-border: #{rgba(0, 0, 0, 0.08)};
+  --accordion-bg: var(--card-color);
+  --accordion-text: var(--text-primary);
+  --accordion-active-bg: var(--card-color);
+  --accordion-active-text: var(--text-primary);
+  --border-color: #{rgba(0, 0, 0, 0.1)};
+  --option-bg: var(--card-color);
+  --option-text: var(--text-primary);
+  --correct-option-bg: #{rgba(40, 167, 69, 0.1)};
+  --correct-option-border: #{rgba(40, 167, 69, 0.3)};
+  --option-letter-bg: #{rgba(0, 0, 0, 0.05)};
+
   .accordion-item {
     background-color: var(--card-color);
     border: 1px solid var(--accordion-border);
-    border-radius: 8px;
+    border-radius: 8px !important;
     overflow: hidden;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     transition: box-shadow 0.3s ease;
 
     &:hover {
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
   }
 
   .accordion-button {
     background-color: var(--accordion-bg);
     color: var(--accordion-text);
-    font-weight: 600;
-    padding: 1rem;
+    font-weight: 500;
+    padding: 0.75rem;
     transition: background-color 0.3s ease, color 0.3s ease;
 
     &::after {
       filter: invert(50%);
+      margin-left: 0.5rem;
     }
 
     &:focus {
       box-shadow: none;
+      border-color: var(--primary-color);
     }
 
     &:not(.collapsed) {
       background-color: var(--accordion-active-bg);
       color: var(--accordion-active-text);
+      box-shadow: none;
+    }
+
+    .question-text {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.95rem;
     }
   }
 
   .options-list {
     display: grid;
-    gap: 0.75rem;
-    margin-top: 1rem;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   .option {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 6px;
     background-color: var(--option-bg);
-    padding: 0.75rem 1rem;
+    padding: 0.5rem;
     color: var(--option-text);
     position: relative;
-    transition: transform 0.2s ease;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
 
     &:hover {
-      transform: scale(1.01);
+      transform: translateY(-1px);
     }
 
     &.correct {
@@ -60,8 +86,8 @@
     }
 
     .option-letter {
-      width: 32px;
-      height: 32px;
+      min-width: 24px;
+      height: 24px;
       border-radius: 50%;
       background-color: var(--option-letter-bg);
       color: var(--text-primary);
@@ -69,13 +95,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 1rem;
+      margin-right: 0.75rem;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .option-text {
+      flex-grow: 1;
+      padding-right: 1.5rem;
     }
 
     .option-status {
       position: absolute;
-      right: 1rem;
-      font-size: 0.875rem;
+      right: 0.5rem;
+      font-size: 0.75rem;
       color: var(--success-color);
       display: flex;
       align-items: center;
@@ -86,17 +119,51 @@
     }
   }
 
-  select.form-select-lg {
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
+  select.form-select-md {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
     border: 1px solid var(--border-color);
     background-color: var(--card-color);
     color: var(--text-primary);
     transition: border 0.2s ease;
+    font-size: 0.9rem;
 
-    &:hover {
+    &:focus {
       border-color: var(--primary-color);
       box-shadow: 0 0 0 0.1rem rgba(67, 97, 238, 0.25);
+    }
+  }
+
+  .explanation {
+    font-size: 0.85rem;
+    border-left: 3px solid var(--primary-color);
+  }
+
+  @media (min-width: 768px) {
+    .accordion-button {
+      padding: 1rem;
+
+      .question-text {
+        font-size: 1rem;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+      }
+    }
+
+    .option {
+      padding: 0.75rem;
+      font-size: 1rem;
+
+      .option-letter {
+        min-width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+      }
+    }
+
+    select.form-select-md {
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
     }
   }
 }

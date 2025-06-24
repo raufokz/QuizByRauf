@@ -1,11 +1,11 @@
-<div class="container review-container my-4">
-  <div class="row mb-4 align-items-center">
-    <div class="col-md-6">
-      <h2>Question Bank</h2>
-      <p class="text-muted">Review all available questions</p>
+<div class="container review-container my-3 my-md-4">
+  <div class="row mb-3 mb-md-4 align-items-center">
+    <div class="col-12 col-md-6 mb-3 mb-md-0">
+      <h2 class="mb-1">Question Bank</h2>
+      <p class="text-muted small">Review all available questions</p>
     </div>
-    <div class="col-md-6 text-end">
-      <select class="form-select form-select-lg" [(ngModel)]="selectedCategory" (change)="filterQuestions()">
+    <div class="col-12 col-md-6 text-md-end">
+      <select class="form-select form-select-md" [(ngModel)]="selectedCategory" (change)="filterQuestions()">
         <option value="all">All Categories</option>
         <option *ngFor="let category of categories" [value]="category">
           {{ category | titlecase }}
@@ -15,27 +15,32 @@
   </div>
 
   <div class="accordion" id="questionAccordion">
-    <div *ngFor="let question of filteredQuestions; let i = index" class="accordion-item">
+    <div *ngFor="let question of filteredQuestions; let i = index" class="accordion-item mb-2">
       <h2 class="accordion-header">
-        <button class="accordion-button" type="button"
-                [attr.data-bs-toggle]="'collapse'"
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse"
                 [attr.data-bs-target]="'#collapse' + i"
-                [attr.aria-expanded]="i === 0 ? 'true' : 'false'"
+                aria-expanded="false"
                 [attr.aria-controls]="'collapse' + i">
-          <span class="badge me-2 rounded-pill px-3 py-1"
-                [ngClass]="'bg-' + getCategoryColor(question.category)">
-            <i class="fas fa-book-open me-1"></i> {{ question.category | titlecase }}
-          </span>
-          <span class="fw-semibold text-wrap flex-grow-1">{{ question.question }}</span>
-          <span class="ms-auto small text-muted">Question {{ i + 1 }} of {{ filteredQuestions.length }}</span>
+          <div class="d-flex flex-column w-100">
+            <div class="d-flex align-items-center mb-1">
+              <span class="badge me-2 rounded-pill px-2 py-1"
+                    [ngClass]="'bg-' + getCategoryColor(question.category)">
+                <i class="fas fa-book-open me-1"></i>
+                <span class="d-none d-sm-inline">{{ question.category | titlecase }}</span>
+                <span class="d-inline d-sm-none">{{ (question.category | uppercase) | slice:0:3 }}</span>
+              </span>
+              <span class="small text-muted ms-auto">#{{ i + 1 }}</span>
+            </div>
+            <span class="question-text text-start">{{ question.question }}</span>
+          </div>
         </button>
       </h2>
       <div [id]="'collapse' + i"
            class="accordion-collapse collapse"
-           [class.show]="i === 0"
            [attr.aria-labelledby]="'heading' + i"
            data-bs-parent="#questionAccordion">
-        <div class="accordion-body">
+        <div class="accordion-body pt-2">
           <div class="options-list">
             <div *ngFor="let option of question.options; let j = index"
                  class="option"
@@ -43,17 +48,29 @@
               <div class="option-letter">{{ getOptionLetter(j) }}</div>
               <div class="option-text">{{ option }}</div>
               <div class="option-status" *ngIf="j === question.answer">
-                <i class="fas fa-check-circle me-1"></i> Correct Answer
+                <i class="fas fa-check-circle me-1"></i>
+                <span class="d-none d-sm-inline">Correct Answer</span>
+                <span class="d-inline d-sm-none">Correct</span>
               </div>
             </div>
           </div>
-          <div class="explanation mt-4 p-3 rounded border" *ngIf="question.explanation"
+          <div class="explanation mt-3 p-2 p-sm-3 rounded border" *ngIf="question.explanation"
                style="background: var(--surface-color);">
-            <h6 class="mb-2 text-primary"><i class="fas fa-info-circle me-1"></i> Explanation:</h6>
-            <p class="mb-0">{{ question.explanation }}</p>
+            <h6 class="mb-1 mb-sm-2 text-primary small">
+              <i class="fas fa-info-circle me-1"></i> Explanation:
+            </h6>
+            <p class="mb-0 small">{{ question.explanation }}</p>
           </div>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="filteredQuestions.length === 0" class="text-center py-4">
+      <i class="fas fa-question-circle fa-2x text-muted mb-2"></i>
+      <p class="text-muted">No questions found for this category</p>
+      <button class="btn btn-sm btn-outline-primary" (click)="selectedCategory = 'all'; filterQuestions()">
+        Show All Questions
+      </button>
     </div>
   </div>
 </div>

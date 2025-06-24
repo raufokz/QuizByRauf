@@ -12,21 +12,35 @@ export class ReviewComponent implements OnInit {
   filteredQuestions: any[] = [];
   categories: string[] = [];
   selectedCategory = 'all';
+  isLoading = true;
 
   constructor(private quizService: QuizService) { }
 
   ngOnInit(): void {
-    this.questions = this.quizService.getAllQuestions();
-    this.filteredQuestions = [...this.questions];
-    this.categories = this.quizService.getCategories();
+    this.loadQuestions();
+  }
+
+  loadQuestions(): void {
+    this.isLoading = true;
+    try {
+      this.questions = this.quizService.getAllQuestions();
+      this.filteredQuestions = [...this.questions];
+      this.categories = this.quizService.getCategories();
+      this.isLoading = false;
+    } catch (error) {
+      console.error('Error loading questions:', error);
+      this.isLoading = false;
+    }
   }
 
   filterQuestions(): void {
+    if (!this.questions.length) return;
+
     if (this.selectedCategory === 'all') {
       this.filteredQuestions = [...this.questions];
     } else {
       this.filteredQuestions = this.questions.filter(
-        q => q.category === this.selectedCategory
+        q => q.category.toLowerCase() === this.selectedCategory.toLowerCase()
       );
     }
   }
@@ -36,7 +50,7 @@ export class ReviewComponent implements OnInit {
   }
 
   getCategoryColor(category: string): string {
-    const colors: Record<string, string> = {
+    const categoryMap: Record<string, string> = {
       'biology': 'success',
       'engineering': 'info',
       'computer science': 'primary',
@@ -49,6 +63,8 @@ export class ReviewComponent implements OnInit {
       'current affairs': 'warning',
       'physics': 'danger'
     };
-    return colors[category.toLowerCase()] || 'secondary';
+
+    const lowerCategory = category.toLowerCase();
+    return categoryMap[lowerCategory] || 'secondary';
   }
 }

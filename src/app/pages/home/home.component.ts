@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   progressChart: Chart | null = null;
   categoryChart: Chart | null = null;
 
-  // New properties for random questions and daily challenge
   randomQuestions: any[] = [];
   dailyChallenge: any = null;
   timeUntilRefresh: string = '';
@@ -71,18 +70,32 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.destroyCharts();
+      this.clearIntervals();
+    }
+  }
+
+  private destroyCharts(): void {
+    try {
       if (this.progressChart) {
         this.progressChart.destroy();
+        this.progressChart = null;
       }
       if (this.categoryChart) {
         this.categoryChart.destroy();
+        this.categoryChart = null;
       }
-      if (this.refreshInterval) {
-        clearInterval(this.refreshInterval);
-      }
-      if (this.challengeCheckInterval) {
-        clearInterval(this.challengeCheckInterval);
-      }
+    } catch (e) {
+      console.warn('Error destroying charts:', e);
+    }
+  }
+
+  private clearIntervals(): void {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
+    if (this.challengeCheckInterval) {
+      clearInterval(this.challengeCheckInterval);
     }
   }
 
@@ -143,7 +156,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       category: result.category
     }));
 
-    // Add some challenge completions if available
     const challengeResults = this.challengeService.getRecentCompletions();
     challengeResults.forEach(challenge => {
       this.recentActivities.unshift({
@@ -156,7 +168,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     });
 
-    // Sort by date
     this.recentActivities.sort((a, b) => b.date - a.date);
     this.recentActivities = this.recentActivities.slice(0, 5);
 
@@ -192,7 +203,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         title: 'Quick Quiz',
         description: '10 random questions',
         icon: 'bolt',
-        // color: 'primary',
+        color: 'primary',
         link: '/quiz/random',
         badge: 'Fast'
       },
@@ -200,7 +211,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         title: 'Review Weak Areas',
         description: weakAreaText,
         icon: 'book-medical',
-        // color: 'danger',
+        color: 'danger',
         link: '/review',
         badge: weakAreas.length > 0 ? weakAreas.length + ' areas' : ''
       },
@@ -227,8 +238,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   loadRandomQuestions(count: number = 3): void {
     const allCategories = this.quizService.getCategories();
     this.randomQuestions = [];
-
-    // Get questions from different categories
     const selectedCategories = this.getRandomCategories(allCategories, count);
 
     selectedCategories.forEach(category => {
@@ -245,13 +254,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   loadDailyChallenge(): void {
     this.dailyChallenge = this.challengeService.getTodaysChallenge();
     if (this.dailyChallenge) {
-      // Check if user has already started
       const progress = this.challengeService.getChallengeProgress(this.dailyChallenge.id);
-      if (progress) {
-        this.dailyChallenge.completed = progress.completed;
-      } else {
-        this.dailyChallenge.completed = 0;
-      }
+      this.dailyChallenge.completed = progress ? progress.completed : 0;
     }
   }
 
@@ -302,9 +306,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateTimeUntilRefresh();
     this.refreshInterval = setInterval(() => {
       this.updateTimeUntilRefresh();
-    }, 60000); // Update every minute
+    }, 60000);
 
-    // Check challenge status every 5 minutes
     this.challengeCheckInterval = setInterval(() => {
       this.loadDailyChallenge();
     }, 300000);
@@ -321,8 +324,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.timeUntilRefresh = `${hours}h ${minutes}m`;
 
-    // If it's close to midnight, refresh the challenge
-    if (diff < 60000) { // Less than 1 minute
+    if (diff < 60000) {
       this.loadDailyChallenge();
       this.loadUserProgress();
     }
@@ -340,6 +342,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   createProgressChart(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
+    // Destroy existing chart first
+    if (this.progressChart) {
+      this.progressChart.destroy();
+      this.progressChart = null;
+    }
+
     const progressData = this.analyticsService.getProgressOverTime();
     let filteredData = progressData;
 
@@ -352,10 +360,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const labels = filteredData.map(d => d.date.toLocaleDateString());
     const data = filteredData.map(d => d.score);
-
-    if (this.progressChart) {
-      this.progressChart.destroy();
-    }
 
     const ctx = document.getElementById('progressChart') as HTMLCanvasElement;
     if (!ctx) return;
@@ -415,6 +419,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
     if (this.categoryPerformance.length === 0) return;
 
+    // Destroy existing chart first
+    if (this.categoryChart) {
+      this.categoryChart.destroy();
+      this.categoryChart = null;
+    }
+
     const labels = this.categoryPerformance.map(c => c.category);
     const data = this.categoryPerformance.map(c => c.averageScore);
     const backgroundColors = this.categoryPerformance.map((_, i) =>
@@ -423,10 +433,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     const borderColors = this.categoryPerformance.map((_, i) =>
       `rgba(${this.getColorRgb(this.categoryColors[i % this.categoryColors.length])}, 1)`
     );
-
-    if (this.categoryChart) {
-      this.categoryChart.destroy();
-    }
 
     const ctx = document.getElementById('categoryChart') as HTMLCanvasElement;
     if (!ctx) return;
