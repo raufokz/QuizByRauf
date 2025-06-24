@@ -104,16 +104,17 @@
 
     // Category-specific colors
     @each $category, $color in (
-      'biology': var(--success-color),
-      'engineering': var(--info-color),
-      'computer-science': var(--primary-color),
-      'arts': var(--warning-color),
-      'general-knowledge': var(--secondary-color),
-      'mathematics': var(--danger-color),
+      'biology':#32cd32,
+      'engineering': #1e90ff,
+      'computer-science': #ff6347,
+      'arts':  #ffa500,
+      'general-knowledge':#f0e68c,
+      'mathematics':#800080,
       'chemistry': #8a2be2,
       'pakistan-studies': #228b22,
-      'islamic-studies': #006400,
-      'current-affairs': #ff8c00,
+      'islamic_studies': #006400,
+      'english': #ff4500,
+      'current_affairs': #ff8c00,
       'physics': #dc143c
     ) {
       .category-#{$category} {
