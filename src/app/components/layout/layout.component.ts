@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ChildrenOutletContexts, Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ThemeService } from '../../services/theme.service';
@@ -18,26 +18,45 @@ import { ThemeService } from '../../services/theme.service';
   ]
 })
 export class LayoutComponent {
-  isSidebarCollapsed = false; // Track sidebar state
+  isSidebarCollapsed = false;
   isDarkTheme = false;
+  isMobile = false;
 
-  constructor( private router: Router, private contexts: ChildrenOutletContexts,
-      private themeService: ThemeService
+  constructor(
+    private router: Router,
+    private contexts: ChildrenOutletContexts,
+    private themeService: ThemeService
   ) {
-     this.themeService.isDarkTheme$.subscribe(isDark => {
+    this.themeService.isDarkTheme$.subscribe(isDark => {
       this.isDarkTheme = isDark;
     });
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768; // Match your media query breakpoint
   }
 
   toggleSidebar() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed; // Toggle state
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (this.isMobile) {
+      this.isSidebarCollapsed = false;
+    }
   }
 
   getRouteAnimationData() {
     return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
   }
+
   toggleTheme() {
     this.themeService.toggleTheme();
   }
-
 }

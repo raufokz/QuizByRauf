@@ -16,15 +16,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { QuizSelectionComponent } from './pages/quiz-selection/quiz-selection.component';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent,
-    NavbarComponent,
     HomeComponent,
     QuizComponent,
     ResultsComponent,

@@ -6,40 +6,32 @@
 
     </div>
 
-    <ul class="list-unstyled components">
-<li>
-  <a routerLink="/home" routerLinkActive="active">
-    <i class="fas fa-home"></i>
-    Home
-  </a>
-</li>
-<li>
-  <a routerLink="/quiz-selection" routerLinkActive="active">
-    <i class="fas fa-question-circle"></i>
-    Quiz Selection
-  </a>
-</li>
-
-<!-- <li>
-  <a routerLink="/results" routerLinkActive="active">
-    <i class="fas fa-poll"></i>
-    Results
-  </a>
-</li> -->
-<li>
-  <a routerLink="/review" routerLinkActive="active">
-    <i class="fas fa-clipboard-check"></i>
-    Review
-  </a>
-</li>
-<li>
-  <a routerLink="/history" routerLinkActive="active">
-    <i class="fas fa-clock"></i>
-    History
-  </a>
-</li>
-
-    </ul>
+<ul class="list-unstyled components">
+  <li>
+    <a routerLink="/home" routerLinkActive="active" (click)="closeSidebarOnMobile()">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+  </li>
+  <li>
+    <a routerLink="/quiz-selection" routerLinkActive="active" (click)="closeSidebarOnMobile()">
+      <i class="fas fa-question-circle"></i>
+      Quiz Selection
+    </a>
+  </li>
+  <li>
+    <a routerLink="/review" routerLinkActive="active" (click)="closeSidebarOnMobile()">
+      <i class="fas fa-clipboard-check"></i>
+      Review
+    </a>
+  </li>
+  <li>
+    <a routerLink="/history" routerLinkActive="active" (click)="closeSidebarOnMobile()">
+      <i class="fas fa-clock"></i>
+      History
+    </a>
+  </li>
+</ul>
   </nav>
 
   <!-- Page Content -->
