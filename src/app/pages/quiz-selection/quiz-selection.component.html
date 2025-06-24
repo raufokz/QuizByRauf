@@ -1,39 +1,113 @@
 <div class="quiz-selection-container">
-  <!-- Hero Section -->
-  <section class="hero-section text-center">
-    <h1 class="hero-title">Expand Your Knowledge</h1>
-    <p class="hero-subtitle">Choose your challenge and test your expertise</p>
-    <div class="features-grid">
-      <div class="feature-item">
-        <i class="bi bi-lightning-charge-fill"></i>
-        <span>Quick Quizzes</span>
-      </div>
-      <div class="feature-item">
-        <i class="bi bi-bar-chart-fill"></i>
-        <span>Track Progress</span>
-      </div>
-      <div class="feature-item">
-        <i class="bi bi-trophy-fill"></i>
-        <span>Earn Badges</span>
-      </div>
+  <!-- Loading State -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <i class="bi bi-arrow-repeat bi-spin"></i>
+      <p>Loading quiz content...</p>
     </div>
-  </section>
+  </div>
 
-  <!-- Settings Panel -->
-  <section class="settings-panel">
-    <div class="settings-card glass-card">
-      <div class="settings-header">
-        <i class="bi bi-tune"></i>
-        <h2>Quiz Configuration</h2>
+  <!-- Content when loaded -->
+  <ng-container *ngIf="!isLoading">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Expand Your Knowledge</h1>
+        <p>Select a category or take today's challenge to test your skills</p>
+        <div class="stats-container">
+          <div class="stat-item">
+            <span class="stat-value">{{totalQuestions}}</span>
+            <span class="stat-label">Questions</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{categories.length}}</span>
+            <span class="stat-label">Categories</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{bookmarkedCount}}</span>
+            <span class="stat-label">Bookmarked</span>
+          </div>
+          <div class="stat-item" *ngIf="performanceStats">
+            <span class="stat-value">{{performanceStats.averageScore | number:'1.0-0'}}%</span>
+            <span class="stat-label">Avg Score</span>
+          </div>
+        </div>
       </div>
-      <div class="settings-body">
-        <div class="setting-group">
+    </section>
+
+    <!-- Today's Challenge -->
+    <section class="challenge-section" *ngIf="todaysChallenge">
+      <div class="challenge-card">
+        <div class="challenge-header">
+          <div class="challenge-badge">
+            <i class="bi bi-star-fill"></i>
+            <span>Daily Challenge</span>
+          </div>
+          <div class="reward-badge" *ngIf="todaysChallenge.reward">
+            +{{todaysChallenge.reward}} XP
+          </div>
+        </div>
+
+        <div class="challenge-content">
+          <h3>{{todaysChallenge.title}}</h3>
+
+          <div class="challenge-meta">
+            <span class="category-tag">
+              <i class="bi bi-tag-fill"></i>
+              {{todaysChallenge.category}}
+            </span>
+            <span class="difficulty" [class]="todaysChallenge.difficulty">
+              {{todaysChallenge.difficulty}}
+            </span>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-text">
+              <span>Your progress</span>
+              <span>{{getChallengeProgress() | number:'1.0-0'}}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width]="getChallengeProgress() + '%'"></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="start-challenge-btn" (click)="startChallenge()">
+          Start Challenge
+        </button>
+      </div>
+    </section>
+
+    <!-- Filter Controls -->
+    <section class="filter-section">
+      <div class="search-container">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search categories..."
+                 [(ngModel)]="searchQuery"
+                 (input)="filterCategories()">
+          <button class="clear-search" *ngIf="searchQuery" (click)="clearSearch()">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+
+        <div class="mobile-filters-toggle" (click)="showMobileFilters = !showMobileFilters">
+          <i class="bi bi-funnel"></i>
+          <span>Filters</span>
+        </div>
+      </div>
+
+      <div class="filter-controls" [class.show]="showMobileFilters">
+        <div class="filter-group">
           <label>Questions</label>
           <select class="form-select" [(ngModel)]="selectedQuestionCount">
-            <option *ngFor="let count of questionCountOptions" [value]="count">{{ count }}</option>
+            <option *ngFor="let count of questionCountOptions" [value]="count">
+              {{count}}
+            </option>
           </select>
         </div>
-        <div class="setting-group">
+
+        <div class="filter-group">
           <label>Difficulty</label>
           <select class="form-select" [(ngModel)]="difficulty">
             <option value="mixed">Mixed</option>
@@ -42,66 +116,112 @@
             <option value="hard">Hard</option>
           </select>
         </div>
-        <div class="setting-group toggle-group">
-          <label>Enable Timer</label>
-          <label class="toggle-switch">
-            <input type="checkbox" [(ngModel)]="enableTimer">
-            <span class="slider"></span>
-          </label>
-          <span class="pro-badge">PRO</span>
+
+        <div class="filter-group">
+          <label>Sort By</label>
+          <select class="form-select" [(ngModel)]="sortOption" (change)="sortCategories()">
+            <option value="name">Name (A-Z)</option>
+            <option value="nameDesc">Name (Z-A)</option>
+            <option value="count">Question Count</option>
+            <option value="countDesc">Question Count (Desc)</option>
+          </select>
+        </div>
+
+        <div class="view-toggle">
+          <button [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'">
+            <i class="bi bi-grid-3x3-gap"></i>
+          </button>
+          <button [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">
+            <i class="bi bi-list-task"></i>
+          </button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Categories Grid -->
-  <section class="categories-section">
-    <h2 class="section-title">Choose Your Category</h2>
+    <!-- Categories Section -->
+    <section class="categories-section">
+      <div class="section-header">
+        <h2>
+          <i class="bi bi-collection"></i>
+          Quiz Categories
+          <span class="badge">{{filteredCategories.length}}</span>
+        </h2>
+      </div>
 
-    <div class="categories-grid">
-      <ng-container *ngIf="!loading; else loadingState">
-        <div class="category-card" *ngFor="let category of categories"
-             [class.popular]="isPopular(category)"
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredCategories.length === 0">
+        <div class="empty-icon">
+          <i class="bi bi-search"></i>
+        </div>
+        <h3>No categories found</h3>
+        <p>Try adjusting your search or filters</p>
+        <button class="btn-primary" (click)="resetFilters()">
+          Reset Filters
+        </button>
+      </div>
+
+      <!-- Grid View -->
+      <div class="categories-grid" *ngIf="viewMode === 'grid' && filteredCategories.length > 0">
+        <div class="category-card" *ngFor="let category of filteredCategories"
              (click)="startQuiz(category)"
              [class.disabled]="getQuestionCount(category) < selectedQuestionCount">
-          <div class="category-icon">
+          <div class="card-badge weak-area" *ngIf="isWeakArea(category)">
+            <i class="bi bi-exclamation-triangle"></i>
+            Weak Area
+          </div>
+
+          <div class="card-badge question-count">
+            {{getQuestionCount(category)}} Qs
+          </div>
+
+          <div class="card-icon">
             <i [class]="getCategoryIcon(category)"></i>
           </div>
           <h3 class="category-title">{{ category | titlecase }}</h3>
           <div class="progress-container">
             <div class="progress-bar"
-                 [style.width]="(getQuestionCount(category) / maxQuestions * 100) + '%'"></div>
+                 [style.width]="(getQuestionCount(category) / maxQuestions * 100) + '%'">
+            </div>
           </div>
-          <p class="question-count">{{ getQuestionCount(category) }} questions</p>
-          <button class="start-button">
-            Begin Challenge
+
+          <button class="start-btn">
+            Start Quiz
             <i class="bi bi-arrow-right"></i>
           </button>
-          <div class="popular-tag" *ngIf="isPopular(category)">Trending</div>
         </div>
-      </ng-container>
+      </div>
 
-      <ng-template #loadingState>
-        <div class="category-card loading" *ngFor="let item of [1,2,3,4,5,6]">
-          <div class="category-icon shimmer"></div>
-          <h3 class="category-title shimmer"></h3>
-          <div class="progress-container shimmer"></div>
-          <p class="question-count shimmer"></p>
-          <div class="start-button shimmer"></div>
+      <!-- List View -->
+      <div class="categories-list" *ngIf="viewMode === 'list' && filteredCategories.length > 0">
+        <div class="category-item" *ngFor="let category of filteredCategories"
+             (click)="startQuiz(category)"
+             [class.disabled]="getQuestionCount(category) < selectedQuestionCount">
+          <div class="item-icon">
+            <i [class]="getCategoryIcon(category)"></i>
+          </div>
+
+          <div class="item-content">
+            <div class="item-header">
+              <h3>{{category}}</h3>
+              <span class="question-count">{{getQuestionCount(category)}} questions</span>
+            </div>
+
+            <div class="progress-container">
+              <div class="progress-bar"
+                   [style.width]="(getQuestionCount(category) / maxQuestions * 100) + '%'">
+              </div>
+            </div>
+          </div>
+
+          <div class="item-badge weak-area" *ngIf="isWeakArea(category)">
+            <i class="bi bi-exclamation-triangle"></i>
+          </div>
+
+          <button class="start-btn">
+            <i class="bi bi-play-fill"></i>
+          </button>
         </div>
-      </ng-template>
-    </div>
-  </section>
-
-  <!-- Empty State -->
-  <div class="empty-state" *ngIf="categories.length === 0 && !loading">
-    <div class="empty-content">
-      <i class="bi bi-book"></i>
-      <h3>No Categories Available</h3>
-      <p>We're working on adding more quiz categories</p>
-      <button class="refresh-button" (click)="loadCategories()">
-        <i class="bi bi-arrow-repeat"></i> Refresh
-      </button>
-    </div>
-  </div>
+      </div>
+    </section>
+  </ng-container>
 </div>

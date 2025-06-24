@@ -1,76 +1,144 @@
 <div class="container review-container my-3 my-md-4">
-  <div class="row mb-3 mb-md-4 align-items-center">
-    <div class="col-12 col-md-6 mb-3 mb-md-0">
-      <h2 class="mb-1">Question Bank</h2>
-      <p class="text-muted small">Review all available questions</p>
+  <!-- Category Selection Screen -->
+  <div *ngIf="!categorySelected" class="category-selection-screen">
+    <div class="text-center mb-4">
+      <h2 class="mb-2">Select Question Category</h2>
+      <p class="text-muted">Choose a category to review questions</p>
     </div>
-    <div class="col-12 col-md-6 text-md-end">
-      <select class="form-select form-select-md" [(ngModel)]="selectedCategory" (change)="filterQuestions()">
-        <option value="all">All Categories</option>
-        <option *ngFor="let category of categories" [value]="category">
-          {{ category | titlecase }}
-        </option>
-      </select>
-    </div>
-  </div>
 
-  <div class="accordion" id="questionAccordion">
-    <div *ngFor="let question of filteredQuestions; let i = index" class="accordion-item mb-2">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button"
-                data-bs-toggle="collapse"
-                [attr.data-bs-target]="'#collapse' + i"
-                aria-expanded="false"
-                [attr.aria-controls]="'collapse' + i">
-          <div class="d-flex flex-column w-100">
-            <div class="d-flex align-items-center mb-1">
-              <span class="badge me-2 rounded-pill px-2 py-1"
-                    [ngClass]="'bg-' + getCategoryColor(question.category)">
-                <i class="fas fa-book-open me-1"></i>
-                <span class="d-none d-sm-inline">{{ question.category | titlecase }}</span>
-                <span class="d-inline d-sm-none">{{ (question.category | uppercase) | slice:0:3 }}</span>
-              </span>
-              <span class="small text-muted ms-auto">#{{ i + 1 }}</span>
-            </div>
-            <span class="question-text text-start">{{ question.question }}</span>
+    <div class="row g-3">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let category of categories">
+        <div class="category-card" (click)="selectCategory(category)"
+             [ngClass]="'category-' + category.toLowerCase().replace(' ', '-')">
+          <div class="category-icon">
+            <i [class]="getCategoryIcon(category)"></i>
           </div>
-        </button>
-      </h2>
-      <div [id]="'collapse' + i"
-           class="accordion-collapse collapse"
-           [attr.aria-labelledby]="'heading' + i"
-           data-bs-parent="#questionAccordion">
-        <div class="accordion-body pt-2">
-          <div class="options-list">
-            <div *ngFor="let option of question.options; let j = index"
-                 class="option"
-                 [class.correct]="j === question.answer">
-              <div class="option-letter">{{ getOptionLetter(j) }}</div>
-              <div class="option-text">{{ option }}</div>
-              <div class="option-status" *ngIf="j === question.answer">
-                <i class="fas fa-check-circle me-1"></i>
-                <span class="d-none d-sm-inline">Correct Answer</span>
-                <span class="d-inline d-sm-none">Correct</span>
-              </div>
-            </div>
+          <h5 class="category-title">{{ category | titlecase }}</h5>
+          <div class="question-count">
+            {{ getQuestionCount(category) }} questions
           </div>
-          <div class="explanation mt-3 p-2 p-sm-3 rounded border" *ngIf="question.explanation"
-               style="background: var(--surface-color);">
-            <h6 class="mb-1 mb-sm-2 text-primary small">
-              <i class="fas fa-info-circle me-1"></i> Explanation:
-            </h6>
-            <p class="mb-0 small">{{ question.explanation }}</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="category-card all-categories" (click)="selectCategory('all')">
+          <div class="category-icon">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <h5 class="category-title">All Categories</h5>
+          <div class="question-count">
+            {{ questions.length }} questions
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div *ngIf="filteredQuestions.length === 0" class="text-center py-4">
-      <i class="fas fa-question-circle fa-2x text-muted mb-2"></i>
-      <p class="text-muted">No questions found for this category</p>
-      <button class="btn btn-sm btn-outline-primary" (click)="selectedCategory = 'all'; filterQuestions()">
-        Show All Questions
-      </button>
+  <!-- Questions Screen -->
+  <div *ngIf="categorySelected" class="questions-screen">
+    <div class="book-cover">
+      <div class="book-spine"></div>
+      <div class="book-content">
+        <div class="book-header">
+          <button class="btn btn-back" (click)="backToCategories()">
+            <i class="fas fa-arrow-left me-1"></i> Back to Categories
+          </button>
+          <div class="book-title">
+            <h2>{{ selectedCategory === 'all' ? 'All Categories' : (selectedCategory | titlecase) }}</h2>
+            <p class="text-muted">{{ filteredQuestions.length }} questions available</p>
+          </div>
+          <div class="book-search">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Search questions..."
+                     [(ngModel)]="searchTerm" (input)="filterQuestions()">
+            </div>
+          </div>
+        </div>
+
+        <div class="book-page">
+          <div class="page-header">
+            <div class="page-number">
+              Page {{ currentPage }} of {{ getTotalPages() }}
+            </div>
+            <div class="page-controls">
+              <select class="form-select" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+                <option value="5">5 per page</option>
+                <option value="10">10 per page</option>
+                <option value="20">20 per page</option>
+                <option value="50">50 per page</option>
+              </select>
+              <button class="btn btn-prev" (click)="prevPage()" [disabled]="currentPage === 1">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="btn btn-next" (click)="nextPage()" [disabled]="currentPage === getTotalPages()">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="page-content">
+            <div class="no-questions" *ngIf="filteredQuestions.length === 0">
+              <div class="empty-state">
+                <i class="fas fa-book-open"></i>
+                <h4>No questions found</h4>
+                <p>Try adjusting your search or select a different category</p>
+                <button class="btn btn-primary" (click)="backToCategories()">
+                  <i class="fas fa-arrow-left me-2"></i>Back to Categories
+                </button>
+              </div>
+            </div>
+
+            <div class="question-list">
+              <div *ngFor="let question of getPaginatedQuestions(); let i = index"
+                   class="question-card" [ngClass]="{'first-question': i === 0}">
+                <div class="question-header">
+                  <span class="question-number">Q{{ (currentPage - 1) * pageSize + i + 1 }}</span>
+                  <span class="question-category"
+                        [ngClass]="'category-' + question.category.toLowerCase().replace(' ', '-')">
+                    {{ question.category | titlecase }}
+                  </span>
+                </div>
+                <div class="question-text">
+                  {{ question.question }}
+                </div>
+                <div class="options-container">
+                  <div *ngFor="let option of question.options; let j = index"
+                       class="option" [class.correct]="j === question.answer">
+                    <span class="option-letter">{{ getOptionLetter(j) }}</span>
+                    <span class="option-text">{{ option }}</span>
+                    <span *ngIf="j === question.answer" class="correct-badge">
+                      <i class="fas fa-check-circle"></i> Correct Answer
+                    </span>
+                  </div>
+                </div>
+                <div class="question-explanation" *ngIf="question.explanation">
+                  <div class="explanation-header">
+                    <i class="fas fa-lightbulb"></i> Explanation
+                  </div>
+                  <div class="explanation-content">
+                    {{ question.explanation }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <div class="showing-text">
+              Showing {{ (currentPage - 1) * pageSize + 1 }} to {{ getToQuestionNumber() }}
+              of {{ filteredQuestions.length }} questions
+            </div>
+            <div class="pagination">
+              <ngb-pagination [collectionSize]="filteredQuestions.length"
+                              [(page)]="currentPage" [pageSize]="pageSize"
+                              [maxSize]="5" [rotate]="true" [ellipses]="false"
+                              size="sm" class="m-0">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
