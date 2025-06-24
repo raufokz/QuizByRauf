@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { QuizService } from './quiz.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +8,13 @@ import { QuizService } from './quiz.service';
 export class ChallengeService {
   private challenges: any[] = [];
   private challengeProgress: any[] = [];
+  private readonly isBrowser: boolean;
 
-  constructor(private quizService: QuizService) {
+  constructor(
+    private quizService: QuizService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
     this.initializeChallenges();
     this.loadProgress();
   }
@@ -58,6 +64,18 @@ export class ChallengeService {
     });
   }
 
+  getUpcomingChallenges(limit: number = 3): any[] {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return this.challenges
+      .filter(challenge => {
+        const challengeDate = new Date(challenge.expires);
+        return challengeDate.getTime() > today.getTime();
+      })
+      .slice(0, limit);
+  }
+
   getChallengeProgress(challengeId: string): any {
     return this.challengeProgress.find(p => p.challengeId === challengeId);
   }
@@ -67,6 +85,7 @@ export class ChallengeService {
 
     if (existing) {
       existing.completed = completed;
+      existing.updatedAt = new Date();
     } else {
       this.challengeProgress.push({
         challengeId,
@@ -88,29 +107,56 @@ export class ChallengeService {
   getRecentCompletions(limit: number = 3): any[] {
     return this.challengeProgress
       .filter(p => p.completed > 0)
-      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
       .slice(0, limit)
       .map(p => {
         const challenge = this.challenges.find(c => c.id === p.challengeId);
         return {
           ...challenge,
+          completed: p.completed,
           completedAt: p.updatedAt
         };
       });
   }
 
   private loadProgress(): void {
+    if (!this.isBrowser) {
+      this.challengeProgress = [];
+      return;
+    }
+
     const saved = localStorage.getItem('challengeProgress');
     if (saved) {
       try {
         this.challengeProgress = JSON.parse(saved);
+        // Ensure dates are properly parsed
+        this.challengeProgress.forEach(progress => {
+          if (progress.updatedAt && typeof progress.updatedAt === 'string') {
+            progress.updatedAt = new Date(progress.updatedAt);
+          }
+        });
       } catch (e) {
+        console.error('Failed to parse challenge progress', e);
         this.challengeProgress = [];
       }
     }
   }
 
   private saveProgress(): void {
-    localStorage.setItem('challengeProgress', JSON.stringify(this.challengeProgress));
+    if (!this.isBrowser) return;
+
+    try {
+      localStorage.setItem('challengeProgress', JSON.stringify(this.challengeProgress));
+    } catch (e) {
+      console.error('Failed to save challenge progress', e);
+    }
+  }
+
+  resetChallenges(): void {
+    this.challengeProgress = [];
+    if (this.isBrowser) {
+      localStorage.removeItem('challengeProgress');
+    }
+    this.initializeChallenges();
   }
 }

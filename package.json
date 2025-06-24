@@ -1,14 +1,17 @@
 {
   "name": "quiz-by-rauf",
   "version": "0.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:QuizByRauf": "node dist/quiz-by-rauf/server/server.mjs"
-  },
+"scripts": {
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build",
+  "build:ssr": "ng build && ng run QuizByRauf:server:production",
+  "serve:ssr": "node dist/quiz-by-rauf/server/server.mjs",
+  "dev:ssr": "ng run QuizByRauf:serve-ssr",
+  "prerender": "ng run QuizByRauf:prerender",
+  "watch": "ng build --watch --configuration development",
+  "test": "ng test"
+},
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.1.0",
