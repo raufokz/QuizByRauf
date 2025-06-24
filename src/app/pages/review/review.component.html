@@ -107,8 +107,11 @@
                        class="option" [class.correct]="j === question.answer">
                     <span class="option-letter">{{ getOptionLetter(j) }}</span>
                     <span class="option-text">{{ option }}</span>
-                    <span *ngIf="j === question.answer" class="correct-badge">
-                      <i class="fas fa-check-circle"></i> Correct Answer
+                    <span *ngIf="j === question.answer" class="correct-badge d-none d-sm-block">
+                      <i class="fas fa-check-circle me-2"></i> Correct Answer
+                    </span>
+                    <span *ngIf="j === question.answer" class="correct-badge d-block d-sm-none">
+                      <i class="fas fa-check-circle"></i>
                     </span>
                   </div>
                 </div>
