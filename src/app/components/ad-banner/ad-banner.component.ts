@@ -10,7 +10,7 @@ declare global {
   selector: 'app-ad-banner',
   standalone: false,
   templateUrl: './ad-banner.component.html',
-  styleUrls: ['./ad-banner.component.css']
+  styleUrls: ['./ad-banner.component.scss']
 })
 export class AdBannerComponent implements OnInit {
   showFallback = false;

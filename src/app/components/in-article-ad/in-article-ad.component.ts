@@ -4,7 +4,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
   selector: 'app-in-article-ad',
   standalone: false,
   templateUrl: './in-article-ad.component.html',
-  styleUrls: ['./in-article-ad.component.css']
+  styleUrls: ['./in-article-ad.component.scss']
 })
 export class InArticleAdComponent implements OnInit, OnDestroy {
   @Input() adSlot: string = '1234567890'; // Default slot
