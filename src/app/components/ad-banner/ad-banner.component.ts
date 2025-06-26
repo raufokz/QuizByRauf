@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { environment } from '../../../environments/environment.prod';
 
 declare global {
   interface Window {
@@ -12,35 +13,99 @@ declare global {
   templateUrl: './ad-banner.component.html',
   styleUrls: ['./ad-banner.component.scss']
 })
-export class AdBannerComponent implements OnInit {
-  showFallback = false;
+export class AdBannerComponent implements OnInit, OnDestroy {
+  @Input() adSlot!: string;
+  @Input() adFormat: string = 'auto';
+  showAd = false;
+  private adInitialized = false;
 
   ngOnInit() {
-    this.loadAdScript();
-    setTimeout(() => {
-      if (!this.isAdLoaded()) {
-        this.showFallback = true;
-      }
-    }, 3000); // Show fallback after 3 seconds if ad doesn't load
-  }
-
-  private loadAdScript() {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error('AdSense error:', e);
-      this.showFallback = true;
+    if (this.shouldLoadAd()) {
+      this.initializeAd();
     }
   }
 
-  private isAdLoaded(): boolean {
-    const ads = document.getElementsByClassName('adsbygoogle');
-    if (ads.length === 0) return false;
-    return ads[0].children.length > 0;
+  ngOnDestroy() {
+    // Cleanup if needed
+  }
+
+  private shouldLoadAd(): boolean {
+    // Don't load ads in development mode
+    if (!environment.production) return false;
+
+    // Check if this specific ad slot has already been loaded
+    const existingAds = document.querySelectorAll(`ins.adsbygoogle[data-ad-slot="${this.adSlot}"]`);
+    return existingAds.length === 0 || !this.hasAdContent(existingAds[0]);
+  }
+
+  private hasAdContent(adElement: Element): boolean {
+    return adElement?.children?.length > 0;
+  }
+
+  private initializeAd() {
+    if (this.adInitialized) return;
+
+    this.adInitialized = true;
+    this.showAd = true; // Show the ad container initially
+
+    // Load with a small delay to ensure DOM is ready
+    setTimeout(() => {
+      try {
+        if (typeof window.adsbygoogle === 'undefined') {
+          this.loadAdSenseScript();
+        } else {
+          this.pushAd();
+        }
+      } catch (e) {
+        console.error('AdSense initialization error:', e);
+        this.hideAd();
+      }
+    }, 100);
+  }
+
+  private loadAdSenseScript() {
+    const script = document.createElement('script');
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+    script.async = true;
+    script.onload = () => this.pushAd();
+    script.onerror = () => this.hideAd();
+    document.head.appendChild(script);
+  }
+
+  private pushAd() {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+
+      // Verify ad loaded after delay
+      setTimeout(() => {
+        const adElement = document.querySelector(`ins.adsbygoogle[data-ad-slot="${this.adSlot}"]`);
+        if (!adElement || !this.hasAdContent(adElement)) {
+          this.hideAd();
+        }
+      }, 3000);
+    } catch (e) {
+      console.error('AdSense push error:', e);
+      this.hideAd();
+    }
+  }
+
+  private hideAd() {
+    this.showAd = false;
+    // Clean up any ad elements if needed
+    const adElement = document.querySelector(`ins.adsbygoogle[data-ad-slot="${this.adSlot}"]`);
+    if (adElement) {
+      adElement.remove();
+    }
   }
 
   refreshAd() {
-    this.showFallback = false;
-    this.loadAdScript();
+    if (!environment.production) return;
+
+    const adElement = document.querySelector(`ins.adsbygoogle[data-ad-slot="${this.adSlot}"]`);
+    if (adElement) {
+      adElement.innerHTML = '';
+      this.showAd = true;
+      this.pushAd();
+    }
   }
 }

@@ -1,13 +1,7 @@
-<div class="banner-ad-container">
+<div class="banner-ad-container" *ngIf="showAd">
   <!-- Google AdSense Banner -->
   <ins class="adsbygoogle"
        style="display:inline-block;width:728px;height:90px"
-       data-ad-client="ca-pub-5201725181389520"
-       data-ad-slot="1234567890"></ins>
-
-  <!-- Fallback content if ads don't load -->
-  <div class="ad-fallback" *ngIf="showFallback">
-    <p>Support us by disabling your ad blocker</p>
-    <a href="/premium" class="btn btn-sm btn-outline-primary">Go Premium</a>
-  </div>
+       [attr.data-ad-client]="'ca-pub-5201725181389520'"
+       [attr.data-ad-slot]="adSlot"></ins>
 </div>

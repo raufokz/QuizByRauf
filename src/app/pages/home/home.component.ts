@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   nextAchievement: string = '';
   private refreshInterval: any;
   private challengeCheckInterval: any;
+showAds: any;
 
   constructor(
     private resultsService: ResultsService,

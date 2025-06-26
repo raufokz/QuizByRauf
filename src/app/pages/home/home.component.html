@@ -31,8 +31,8 @@
       </div>
     </div>
   </div>
-<!-- Add responsive ad -->
-  <app-ad-banner ></app-ad-banner>
+<!-- Only show ad banner if ads are enabled -->
+<app-ad-banner *ngIf="showAds" adSlot="9876543210" adFormat="rectangle"></app-ad-banner>
   <!-- Stats Cards -->
   <div class="stats-section">
     <div class="stats-grid">
