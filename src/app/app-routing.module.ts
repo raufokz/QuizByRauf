@@ -16,27 +16,33 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
+        data: { animation: 'HomePage', title: 'Home' }
       },
       {
         path: 'quiz-selection',
-        component: QuizSelectionComponent
+        component: QuizSelectionComponent,
+        data: { animation: 'QuizSelectionPage', title: 'Quiz Selection' }
       },
       {
         path: 'quiz/:category',
-        component: QuizComponent
+        component: QuizComponent,
+        data: { animation: 'QuizPage', title: 'Quiz' }
       },
       {
         path: 'results',
-        component: ResultsComponent
+        component: ResultsComponent,
+        data: { animation: 'ResultsPage', title: 'Results' }
       },
       {
         path: 'review',
         component: ReviewComponent,
+        data: { animation: 'ReviewPage', title: 'Review' }
       },
       {
         path: 'history',
-        component: HistoryComponent
+        component: HistoryComponent,
+        data: { animation: 'HistoryPage', title: 'History' }
       },
     ]
   },
