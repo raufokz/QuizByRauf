@@ -31,8 +31,17 @@
         </a>
       </li>
     </ul>
+
+    <!-- Developer Attribution - NEW SECTION ADDED -->
+    <div class="sidebar-footer">
+      <a href="http://raufokz.netlify.app/" target="_blank" class="developer-attribution" (click)="closeSidebarOnMobile()">
+        <img src="/images/rauf-avatar.jpeg" alt="Abdur Rauf" class="developer-avatar">
+        <span class="developer-name">Developed by Abdur Rauf</span>
+      </a>
+    </div>
   </nav>
 
+  <!-- Rest of your existing content remains unchanged -->
   <!-- Page Content -->
   <div id="content" [ngClass]="{ 'active': isSidebarCollapsed }">
     <nav class="navbar navbar-expand-lg">
@@ -43,7 +52,7 @@
         </button>
 
         <!-- Support Dropdown -->
-    <div class="dropdown ms-auto me-3" ngbDropdown>
+        <div class="dropdown ms-auto me-3" ngbDropdown>
           <button class="btn btn-outline-primary" ngbDropdownToggle>
             <i class="fas fa-life-ring me-1"></i> Support
           </button>

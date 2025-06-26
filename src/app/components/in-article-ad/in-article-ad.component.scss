@@ -1,0 +1,51 @@
+.in-article-ad {
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  max-width: 100%;
+  text-align: center;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+}
+
+.in-article-ad.sticky {
+  position: sticky;
+  top: 100px;
+  z-index: 100;
+}
+
+.ad-fallback {
+  padding: 1.5rem;
+  background: #e9ecef;
+  border-radius: 6px;
+}
+
+.fallback-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.fallback-content i {
+  font-size: 2rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.fallback-content p {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .in-article-ad {
+    min-height: 250px;
+    margin: 1.5rem auto;
+  }
+
+  .in-article-ad.sticky {
+    position: static;
+  }
+}

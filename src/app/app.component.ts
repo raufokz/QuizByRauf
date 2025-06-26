@@ -1,5 +1,7 @@
 import { Component, HostListener, Inject, OnInit, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { ThemeService } from './services/theme.service';
 import { SidebarService } from './services/sidebar.service';
 
@@ -15,19 +17,29 @@ export class AppComponent implements OnInit, OnDestroy {
   isSidebarOpen = false;
   isMobileView = false;
   private resizeListener?: () => void;
-
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private themeService: ThemeService,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private router: Router
   ) {}
 
   ngOnInit() {
+      this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        if (window['adsbygoogle']) {
+          setTimeout(() => {
+            window['adsbygoogle'].push({});
+          }, 200);
+        }
+      });
     if (isPlatformBrowser(this.platformId)) {
       this.checkMobileView();
       this.loadThemePreference();
       this.setupResizeListener();
     }
+
   }
 
   ngOnDestroy() {

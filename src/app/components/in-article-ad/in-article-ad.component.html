@@ -1,0 +1,18 @@
+<div class="in-article-ad" [ngClass]="{'sticky': sticky}">
+  <!-- Google AdSense In-Article Ad -->
+  <ins class="adsbygoogle"
+       style="display:block; text-align:center;"
+       data-ad-layout="in-article"
+       data-ad-format="fluid"
+       data-ad-client="ca-pub-5201725181389520"
+       [attr.data-ad-slot]="adSlot"></ins>
+
+  <!-- Fallback Content -->
+  <div class="ad-fallback" *ngIf="showFallback">
+    <div class="fallback-content">
+      <i class="fas fa-ad"></i>
+      <p>Enjoying our content? Please consider supporting us by disabling your ad blocker.</p>
+      <a routerLink="/premium" class="btn btn-sm btn-primary">Go Ad-Free</a>
+    </div>
+  </div>
+</div>

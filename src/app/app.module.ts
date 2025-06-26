@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 import { QuizSelectionComponent } from './pages/quiz-selection/quiz-selection.component';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { LayoutComponent } from './components/layout/layout.component';
+import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
+import { InArticleAdComponent } from './components/in-article-ad/in-article-ad.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { LayoutComponent } from './components/layout/layout.component';
     QuizSelectionComponent,
     LayoutComponent,
     TimeAgoPipe,
+    AdBannerComponent,
+    InArticleAdComponent,
   ],
   imports: [
     BrowserModule,

@@ -17,8 +17,34 @@
     gtag('config', 'G-L7ZLF0W9TJ');
   </script>
   <!-- End Google Analytics -->
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5201725181389520"
+     crossorigin="anonymous"></script>
+  <!-- End Google AdSense -->
+
+  <!-- AdSense Auto Ads (optional) -->
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5201725181389520",
+      enable_page_level_ads: true
+    });
+  </script>
+  <!-- End AdSense Auto Ads -->
 </head>
 <body>
   <app-root></app-root>
+
+  <!-- Ad refresh script (optional) -->
+  <script>
+    setInterval(function(){
+      var ads = document.getElementsByClassName('adsbygoogle');
+      for (var i = 0; i < ads.length; i++) {
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {}
+      }
+    }, 30000); // Refresh ads every 30 seconds
+  </script>
 </body>
 </html>
