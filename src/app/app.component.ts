@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ThemeService } from './services/theme.service';
 import { SidebarService } from './services/sidebar.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +22,20 @@ export class AppComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object,
     private themeService: ThemeService,
     private sidebarService: SidebarService,
-    private router: Router
+    private router: Router,
+      private titleService: Title,
+  private metaService: Meta,
   ) {}
 
   ngOnInit() {
+     this.titleService.setTitle('QuizByRauf - Learn With Quizzes');
+  this.metaService.addTags([
+    { name: 'description', content: 'Take fun quizzes and improve your general knowledge. Free, fast and interactive.' },
+    { name: 'keywords', content: 'quiz app, online quiz, education quiz, QuizByRauf, Rauf quiz' },
+    { property: 'og:title', content: 'QuizByRauf - Interactive Quizzes' },
+    { property: 'og:image', content: 'https://quiz-by-rauf.vercel.app/assets/quiz-banner.png' },
+    { property: 'og:url', content: 'https://quiz-by-rauf.vercel.app/' }
+  ]);
       this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
