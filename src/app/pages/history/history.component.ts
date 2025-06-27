@@ -146,15 +146,23 @@ export class HistoryComponent implements OnInit {
     this.router.navigate(['/results'], { state: quiz });
   }
 
-  retryQuiz(quiz: any): void {
-    this.router.navigate(['/quiz'], {
-      state: {
-        category: quiz.category,
-        mode: quiz.quizMode
-      }
-    });
-  }
 
+  retryQuiz(quiz: any): void {
+    if (quiz.isAllQuestions) {
+      this.router.navigate(['/quiz', 'all'], {
+        queryParams: {
+          mode: quiz.quizMode,
+          all: 'true'
+        }
+      });
+    } else {
+      this.router.navigate(['/quiz', quiz.category], {
+        queryParams: {
+          mode: quiz.quizMode
+        }
+      });
+    }
+  }
   getScoreColor(scoreRatio: number): string {
     if (scoreRatio >= 0.8) return 'var(--success-color)';
     if (scoreRatio >= 0.5) return 'var(--warning-color)';
