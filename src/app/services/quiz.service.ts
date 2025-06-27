@@ -89,7 +89,15 @@ export class QuizService {
   getBookmarkedCount(): number {
     return this.bookmarkedQuestions.length;
   }
+// Add this method to your QuizService
+getRandomQuestionsFromAll(count: number): any[] {
+  if (count >= this.questions.length) {
+    return [...this.questions];
+  }
 
+  const shuffled = [...this.questions].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
   private loadBookmarks(): void {
     const saved = localStorage.getItem('bookmarkedQuestions');
     if (saved) {

@@ -99,7 +99,7 @@ export class ReviewComponent implements OnInit {
       'biology': 'success',
       'engineering': 'info',
       'computer science': 'primary',
-      'arts': 'warning',
+      'urdu': 'warning',
       'general knowledge': 'secondary',
       'mathematics': 'danger',
       'chemistry': 'primary',
@@ -118,7 +118,7 @@ export class ReviewComponent implements OnInit {
       'biology': 'fas fa-dna',
       'engineering': 'fas fa-cogs',
       'computer science': 'fas fa-laptop-code',
-      'arts': 'fas fa-palette',
+      'urdu': 'fas fa-font',
       'general knowledge': 'fas fa-brain',
       'mathematics': 'fas fa-square-root-alt',
       'chemistry': 'fas fa-flask',
@@ -153,3 +153,4 @@ export class ReviewComponent implements OnInit {
     }
   }
 }
+

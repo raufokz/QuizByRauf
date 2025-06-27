@@ -1,66 +1,197 @@
-<div class="container history-container">
-  <h2 class="mb-4">Quiz History</h2>
-
-  <div *ngIf="loading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+<div class="history-container">
+  <div class="history-header">
+    <h2><i class="fas fa-history me-2"></i>Quiz History</h2>
+    <div class="history-actions">
+      <button class="btn btn-sm btn-outline-primary" (click)="refreshHistory()">
+        <i class="fas fa-sync-alt me-1"></i> Refresh
+      </button>
     </div>
   </div>
 
-  <div *ngIf="error" class="alert alert-danger">
+  <!-- Desktop Filters -->
+  <div class="filters-container">
+    <div class="filter-group">
+      <label for="categoryFilter"><i class="fas fa-tag me-1"></i> Category</label>
+      <select id="categoryFilter" class="form-select" [(ngModel)]="selectedCategory" (change)="applyFilters()">
+        <option value="all">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category | titlecase }}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="modeFilter"><i class="fas fa-clock me-1"></i> Mode</label>
+      <select id="modeFilter" class="form-select" [(ngModel)]="selectedMode" (change)="applyFilters()">
+        <option value="all">All Modes</option>
+        <option value="practice">Practice</option>
+        <option value="timed">Timed</option>
+        <option value="exam">Exam</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="dateFilter"><i class="fas fa-calendar me-1"></i> Date</label>
+      <select id="dateFilter" class="form-select" [(ngModel)]="selectedDateRange" (change)="applyFilters()">
+        <option value="all">All Time</option>
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+      </select>
+    </div>
+
+    <button class="btn btn-sm btn-outline-secondary clear-filters" (click)="clearFilters()">
+      <i class="fas fa-times me-1"></i> Clear
+    </button>
+  </div>
+
+  <!-- Mobile Filter Toggle -->
+  <div class="mobile-filter-toggle" (click)="toggleMobileFilters()">
+    <i class="fas fa-filter me-1"></i> Filters
+    <span class="badge bg-primary" *ngIf="filterCount > 0">{{ filterCount }}</span>
+  </div>
+
+  <!-- Mobile Filter Panel -->
+  <div class="mobile-filter-panel" [class.active]="showMobileFilters">
+    <div class="filter-group">
+      <label for="mobileCategoryFilter"><i class="fas fa-tag me-1"></i> Category</label>
+      <select id="mobileCategoryFilter" class="form-select" [(ngModel)]="selectedCategory" (change)="applyFilters()">
+        <option value="all">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category | titlecase }}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="mobileModeFilter"><i class="fas fa-clock me-1"></i> Mode</label>
+      <select id="mobileModeFilter" class="form-select" [(ngModel)]="selectedMode" (change)="applyFilters()">
+        <option value="all">All Modes</option>
+        <option value="practice">Practice</option>
+        <option value="timed">Timed</option>
+        <option value="exam">Exam</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="mobileDateFilter"><i class="fas fa-calendar me-1"></i> Date</label>
+      <select id="mobileDateFilter" class="form-select" [(ngModel)]="selectedDateRange" (change)="applyFilters()">
+        <option value="all">All Time</option>
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+      </select>
+    </div>
+
+    <div class="mobile-filter-actions">
+      <button class="btn btn-primary apply-filters" (click)="toggleMobileFilters()">
+        Apply Filters
+      </button>
+      <button class="btn btn-outline-secondary clear-filters" (click)="clearFilters()">
+        Clear All
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner-grow text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading your quiz history...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state alert alert-danger">
+    <i class="fas fa-exclamation-circle me-2"></i>
     {{ error }}
+    <button class="btn btn-sm btn-outline-light ms-3" (click)="loadHistory()">Retry</button>
   </div>
 
   <div *ngIf="!loading && !error">
-    <div *ngIf="quizHistory.length === 0" class="alert alert-info">
-      No quiz history found. Complete a quiz to see your history.
+    <div *ngIf="filteredHistory.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas" [class.fa-clipboard-list]="filterCount === 0" [class.fa-search]="filterCount > 0"></i>
+      </div>
+      <h3>{{ filterCount === 0 ? 'No Quiz History Found' : 'No Quizzes Found' }}</h3>
+      <p *ngIf="filterCount > 0">
+        No quizzes match your current filters. Try adjusting your filters or
+        <a href="javascript:void(0)" (click)="clearFilters()">clear all filters</a>.
+      </p>
+      <p *ngIf="filterCount === 0">
+        You haven't completed any quizzes yet. Start a quiz to see your results here.
+      </p>
+      <a routerLink="/quiz" class="btn btn-primary mt-2">
+        <i class="fas fa-play me-1"></i> Start a Quiz
+      </a>
     </div>
 
-    <div *ngFor="let quiz of quizHistory" class="card mb-3">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <div>
-          <strong>{{ quiz.category | titlecase }}</strong>
-          <span class="ms-2 text-muted">
-            {{ quiz.date | date:'medium' }}
-          </span>
+    <div class="history-grid">
+      <div *ngFor="let quiz of filteredHistory" class="history-card" [class.featured-card]="isFeatured(quiz)">
+        <div class="card-header">
+          <div class="category-badge" [style.background]="getCategoryColor(quiz.category)">
+            {{ quiz.category | titlecase }}
+          </div>
+          <div class="quiz-meta">
+            <span class="date">{{ quiz.date | date:'mediumDate' }}</span>
+            <span class="time">{{ quiz.date | date:'shortTime' }}</span>
+          </div>
         </div>
-        <span class="badge" [ngClass]="{
-          'bg-primary': quiz.quizMode === 'practice',
-          'bg-warning': quiz.quizMode === 'timed',
-          'bg-danger': quiz.quizMode === 'exam'
-        }">
-          {{ quiz.quizMode | titlecase }}
-        </span>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="progress mb-3">
+
+        <div class="card-body">
+          <div class="score-display">
+            <div class="score-circle" [style.background]="getScoreColor(quiz.score/quiz.total)">
+              {{ (quiz.score / quiz.total * 100).toFixed(0) }}%
+            </div>
+            <div class="score-details">
+              <span class="correct">
+                <i class="fas fa-check"></i> {{ quiz.score }} correct
+              </span>
+              <span class="incorrect">
+                <i class="fas fa-times"></i> {{ quiz.total - quiz.score }} incorrect
+              </span>
+              <span class="time-spent">
+                <i class="fas fa-clock"></i> {{ formatTime(quiz.timeSpent) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-labels">
+              <span>Performance</span>
+              <span>{{ quiz.score }}/{{ quiz.total }}</span>
+            </div>
+            <div class="progress">
               <div class="progress-bar"
-                   [style.width]="(quiz.score / quiz.total) * 100 + '%'">
-                {{ (quiz.score / quiz.total * 100).toFixed(1) }}%
+                   [style.width]="(quiz.score / quiz.total * 100) + '%'"
+                   [style.background]="getScoreColor(quiz.score/quiz.total)">
               </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="d-flex justify-content-between">
-              <span class="badge bg-success">
-                Correct: {{ quiz.score }}
-              </span>
-              <span class="badge bg-danger">
-                Incorrect: {{ quiz.total - quiz.score }}
-              </span>
-              <span class="badge bg-secondary">
-                Time: {{ formatTime(quiz.timeSpent) }}
-              </span>
-            </div>
+
+          <div class="quiz-mode">
+            <span class="badge" [ngClass]="{
+              'practice': quiz.quizMode === 'practice',
+              'timed': quiz.quizMode === 'timed',
+              'exam': quiz.quizMode === 'exam'
+            }">
+              <i class="fas" [class.fa-graduation-cap]="quiz.quizMode === 'practice'"
+                           [class.fa-stopwatch]="quiz.quizMode === 'timed'"
+                           [class.fa-award]="quiz.quizMode === 'exam'"></i>
+              {{ quiz.quizMode | titlecase }}
+            </span>
           </div>
         </div>
-        <button class="btn btn-sm btn-outline-primary mt-2"
-                (click)="viewDetails(quiz)">
-          View Details
-        </button>
+
+        <div class="card-footer">
+          <button class="btn btn-details" (click)="viewDetails(quiz)">
+            <i class="fas fa-chart-bar me-1"></i> View Details
+          </button>
+          <button class="btn btn-retry" (click)="retryQuiz(quiz)">
+            <i class="fas fa-redo me-1"></i> Retry
+          </button>
+        </div>
       </div>
+    </div>
+
+    <div *ngIf="filteredHistory.length > 0 && filteredHistory.length < getFilteredItems().length" class="load-more">
+      <button class="btn btn-outline-primary" (click)="loadMore()">
+        <i class="fas fa-chevron-down me-1"></i> Load More ({{ getFilteredItems().length - filteredHistory.length }} remaining)
+      </button>
     </div>
   </div>
 </div>

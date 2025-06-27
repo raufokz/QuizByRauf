@@ -7,6 +7,17 @@
     </div>
 
     <div class="row g-3">
+            <div class="col-6 col-md-4 col-lg-3">
+        <div class="category-card all-categories" (click)="selectCategory('all')">
+          <div class="category-icon">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <h5 class="category-title">All Categories</h5>
+          <div class="question-count">
+            {{ questions.length }} questions
+          </div>
+        </div>
+      </div>
       <div class="col-6 col-md-4 col-lg-3" *ngFor="let category of categories">
         <div class="category-card" (click)="selectCategory(category)"
              [ngClass]="'category-' + category.toLowerCase().replace(' ', '-')">
@@ -20,17 +31,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3">
-        <div class="category-card all-categories" (click)="selectCategory('all')">
-          <div class="category-icon">
-            <i class="fas fa-layer-group"></i>
-          </div>
-          <h5 class="category-title">All Categories</h5>
-          <div class="question-count">
-            {{ questions.length }} questions
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
 

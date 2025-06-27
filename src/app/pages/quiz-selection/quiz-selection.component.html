@@ -144,12 +144,12 @@
         <h2>
           <i class="bi bi-collection"></i>
           Quiz Categories
-          <span class="badge">{{filteredCategories.length}}</span>
+          <span class="badge">{{filteredCategories.length + 1}}</span> <!-- +1 for All Questions -->
         </h2>
       </div>
 
       <!-- Empty State -->
-      <div class="empty-state" *ngIf="filteredCategories.length === 0">
+      <div class="empty-state" *ngIf="filteredCategories.length === 0 && searchQuery">
         <div class="empty-icon">
           <i class="bi bi-search"></i>
         </div>
@@ -161,7 +161,30 @@
       </div>
 
       <!-- Grid View -->
-      <div class="categories-grid" *ngIf="viewMode === 'grid' && filteredCategories.length > 0">
+      <div class="categories-grid" *ngIf="viewMode === 'grid' && (filteredCategories.length > 0 || !searchQuery)">
+        <!-- All Questions Card -->
+        <div class="category-card all-questions-card"
+             (click)="startAllQuestionsQuiz()"
+             [class.disabled]="getQuestionCount('all') < selectedQuestionCount">
+          <div class="card-badge question-count">
+            {{getQuestionCount('all')}} Qs
+          </div>
+          <div class="card-icon">
+            <i [class]="getCategoryIcon('all')"></i>
+          </div>
+          <h3 class="category-title">All Questions</h3>
+          <div class="progress-container">
+            <div class="progress-bar"
+                 [style.width]="'100%'">
+            </div>
+          </div>
+          <button class="start-btn">
+            Start Quiz
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Category Cards -->
         <div class="category-card" *ngFor="let category of filteredCategories"
              (click)="startQuiz(category)"
              [class.disabled]="getQuestionCount(category) < selectedQuestionCount">
@@ -192,7 +215,34 @@
       </div>
 
       <!-- List View -->
-      <div class="categories-list" *ngIf="viewMode === 'list' && filteredCategories.length > 0">
+      <div class="categories-list" *ngIf="viewMode === 'list' && (filteredCategories.length > 0 || !searchQuery)">
+        <!-- All Questions Item -->
+        <div class="category-item all-questions-item"
+             (click)="startAllQuestionsQuiz()"
+             [class.disabled]="getQuestionCount('all') < selectedQuestionCount">
+          <div class="item-icon">
+            <i [class]="getCategoryIcon('all')"></i>
+          </div>
+
+          <div class="item-content">
+            <div class="item-header">
+              <h3>All Questions</h3>
+              <span class="question-count">{{getQuestionCount('all')}} questions</span>
+            </div>
+
+            <div class="progress-container">
+              <div class="progress-bar"
+                   [style.width]="'100%'">
+              </div>
+            </div>
+          </div>
+
+          <button class="start-btn">
+            <i class="bi bi-play-fill"></i>
+          </button>
+        </div>
+
+        <!-- Category Items -->
         <div class="category-item" *ngFor="let category of filteredCategories"
              (click)="startQuiz(category)"
              [class.disabled]="getQuestionCount(category) < selectedQuestionCount">

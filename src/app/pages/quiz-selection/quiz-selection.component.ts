@@ -14,7 +14,7 @@ export class QuizSelectionComponent implements OnInit {
   categories: string[] = [];
   filteredCategories: string[] = [];
   selectedQuestionCount = 10;
-  questionCountOptions = [5, 10, 15, 20];
+  questionCountOptions = [5, 10, 15, 20, 50, 75, 100];
   searchQuery = '';
   sortOption = 'name';
   viewMode: 'grid' | 'list' = 'grid';
@@ -25,13 +25,14 @@ export class QuizSelectionComponent implements OnInit {
   todaysChallenge: any = null;
   weakAreas: string[] = [];
   performanceStats: any = null;
-showMobileFilters: boolean = false;
-difficulty: string = 'mixed';
-stats = [
+  showMobileFilters = false;
+  difficulty: string = 'mixed';
+  stats = [
     { value: 0, label: 'Quizzes' },
     { value: 0, label: 'Questions' },
     { value: 0, label: 'Players' }
   ];
+
   constructor(
     private quizService: QuizService,
     private router: Router,
@@ -57,10 +58,12 @@ stats = [
       this.isLoading = false;
     }
   }
+
   clearSearch(): void {
     this.searchQuery = '';
     this.filterCategories();
   }
+
   async loadCategories(): Promise<void> {
     this.categories = await this.quizService.getCategories();
     this.filteredCategories = [...this.categories];
@@ -91,20 +94,24 @@ stats = [
 
   calculateMaxQuestions(): void {
     this.maxQuestions = Math.max(
-      ...this.categories.map(cat => this.getQuestionCount(cat))
+      ...this.categories.map(cat => this.getQuestionCount(cat)),
+      this.getQuestionCount('all') // Include 'all' in max calculation
     );
   }
 
   getQuestionCount(category: string): number {
+    if (category === 'all') {
+      return this.quizService.getAllQuestions().length;
+    }
     return this.quizService.getQuestionCountByCategory(category);
   }
 
   getCategoryIcon(category: string): string {
     const icons: Record<string, string> = {
+      'all': 'bi bi-collection',
       'biology': 'bi bi-leaf',
-      'engineering': 'bi bi-cpu',
       'computer science': 'bi bi-code-slash',
-      'arts': 'bi bi-palette',
+      'urdu': 'bi bi-fonts',
       'general knowledge': 'bi bi-globe',
       'mathematics': 'bi bi-calculator',
       'chemistry': 'bi bi-flask',
@@ -165,6 +172,18 @@ stats = [
         }
       });
     }
+  }
+
+  startAllQuestionsQuiz(): void {
+    const totalQuestions = this.quizService.getAllQuestions().length;
+    const questionCount = Math.min(this.selectedQuestionCount, totalQuestions);
+
+    this.router.navigate(['/quiz', 'all'], {
+      queryParams: {
+        count: questionCount,
+        all: true
+      }
+    });
   }
 
   startChallenge(): void {

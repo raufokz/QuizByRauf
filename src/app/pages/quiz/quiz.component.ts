@@ -22,6 +22,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   quizMode = 'practice';
   timeSpent = 0;
   timer: any;
+  isAllQuestionsMode = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,28 +37,31 @@ export class QuizComponent implements OnInit, OnDestroy {
       this.route.queryParams.subscribe(queryParams => {
         this.questionCount = +queryParams['count'] || 10;
         this.quizMode = queryParams['mode'] || 'practice';
+        this.isAllQuestionsMode = queryParams['all'] === 'true';
         this.initializeQuiz();
       });
     });
   }
 
-// quiz.component.ts
-initializeQuiz(): void {
-  // Pass the category to getRandomQuestions
-  this.questions = this.quizService.getRandomQuestions(
-    this.category,  // Add this parameter
-    this.questionCount
-  );
+  initializeQuiz(): void {
+    if (this.isAllQuestionsMode) {
+      // Get questions from all categories
+      this.questions = this.quizService.getRandomQuestionsFromAll(this.questionCount);
+      this.category = 'All Questions'; // Set category name for display
+    } else {
+      // Get questions from specific category
+      this.questions = this.quizService.getRandomQuestions(this.category, this.questionCount);
+    }
 
-  this.answers = this.questions.map(q => ({
-    question: q,
-    selected: null,
-    isCorrect: false,
-    timeSpent: 0
-  }));
+    this.answers = this.questions.map(q => ({
+      question: q,
+      selected: null,
+      isCorrect: false,
+      timeSpent: 0
+    }));
 
-  this.startTimer();
-}
+    this.startTimer();
+  }
 
   startTimer(): void {
     this.timer = setInterval(() => {
@@ -97,6 +101,14 @@ initializeQuiz(): void {
     }
   }
 
+  previousQuestion(): void {
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
+      this.selectedOption = null;
+      this.showResult = false;
+    }
+  }
+
   proceedToNext(): void {
     this.showResult = false;
     this.selectedOption = null;
@@ -121,7 +133,8 @@ initializeQuiz(): void {
       answers: this.answers,
       date: new Date(),
       timeSpent: this.timeSpent,
-      quizMode: this.quizMode
+      quizMode: this.quizMode,
+      isAllQuestions: this.isAllQuestionsMode
     };
 
     this.quizService.setQuizResults(this.answers);
@@ -133,12 +146,22 @@ initializeQuiz(): void {
   }
 
   retakeQuiz(): void {
-    this.router.navigate(['/quiz', this.category], {
-      queryParams: {
-        count: this.questionCount,
-        mode: this.quizMode
-      }
-    });
+    if (this.isAllQuestionsMode) {
+      this.router.navigate(['/quiz', 'all'], {
+        queryParams: {
+          count: this.questionCount,
+          mode: this.quizMode,
+          all: true
+        }
+      });
+    } else {
+      this.router.navigate(['/quiz', this.category], {
+        queryParams: {
+          count: this.questionCount,
+          mode: this.quizMode
+        }
+      });
+    }
   }
 
   getOptionLetter(index: number): string {
@@ -153,12 +176,5 @@ initializeQuiz(): void {
 
   ngOnDestroy(): void {
     clearInterval(this.timer);
-  }
-previousQuestion(): void {
-    if (this.currentQuestionIndex > 0) {
-      this.currentQuestionIndex--;
-      this.selectedOption = null;
-      this.showResult = false;
-    }
   }
 }
