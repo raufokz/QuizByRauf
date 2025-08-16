@@ -54,6 +54,12 @@
     - apt install -y ./google-chrome*.deb;
     - export CHROME_BIN=/usr/bin/google-chrome
     shell: BASH
+  - action: Send email
+    type: EMAIL
+    trigger_time: ON_FAILURE
+    title: "$BUDDY_PIPELINE_NAME execution #$BUDDY_RUN_ID"
+    content: There is something error
+    recipients: raufabdur886@gmail.com
   - action: ng s
     type: BUILD
     trigger_time: ON_WARNING
