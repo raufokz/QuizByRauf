@@ -29,3 +29,27 @@
     - apt install -y ./google-chrome*.deb;
     - export CHROME_BIN=/usr/bin/google-chrome
     shell: BASH
+  - action: ng test --no-watch --no-progress --browsers=ChromeHeadlessCI 2
+    type: BUILD
+    trigger_time: ON_FAILURE
+    docker_image_name: library/node
+    docker_image_tag: 22
+    execute_commands:
+    - "# yarn install"
+    - npm install
+    - "# add to your karma.conf.js"
+    - "# browsers: ['ChromeHeadlessCI']"
+    - "# customLaunchers: {"
+    - "#   ChromeHeadlessCI: {"
+    - "#     base: 'ChromeHeadless'"
+    - "#     flags: ['--no-sandbox']"
+    - "#   }"
+    - "# },"
+    - ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
+    setup_commands:
+    - npm install -g @angular/cli
+    - apt-get update
+    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - apt install -y ./google-chrome*.deb;
+    - export CHROME_BIN=/usr/bin/google-chrome
+    shell: BASH
