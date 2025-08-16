@@ -32,6 +32,7 @@
   - action: ng test --no-watch --no-progress --browsers=ChromeHeadlessCI 2
     type: BUILD
     trigger_time: ON_FAILURE
+    disabled: true
     docker_image_name: library/node
     docker_image_tag: 22
     execute_commands:
