@@ -56,6 +56,7 @@
   - action: ng s
     type: BUILD
     trigger_time: ON_WARNING
+    disabled: true
     docker_image_name: library/ubuntu
     docker_image_tag: 20.04
     execute_commands:
