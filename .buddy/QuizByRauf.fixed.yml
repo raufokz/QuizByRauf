@@ -1,0 +1,7 @@
+- pipeline: quizbyrauf
+  name: QuizByRauf
+  refs:
+  - refs/heads/master
+  events:
+  - type: PUSH
+  fail_on_prepare_env_warning: true
