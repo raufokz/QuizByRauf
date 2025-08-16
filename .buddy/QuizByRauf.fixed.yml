@@ -53,3 +53,11 @@
     - apt install -y ./google-chrome*.deb;
     - export CHROME_BIN=/usr/bin/google-chrome
     shell: BASH
+  - action: ng s
+    type: BUILD
+    trigger_time: ON_WARNING
+    docker_image_name: library/ubuntu
+    docker_image_tag: 20.04
+    execute_commands:
+    - ng s
+    shell: BASH
