@@ -1,0 +1,71 @@
+- pipeline: quizbyrauf
+  name: QuizByRauf
+  refs:
+  - refs/heads/master
+  events:
+  - type: PUSH
+  fail_on_prepare_env_warning: true
+  actions:
+  - action: ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
+    type: BUILD
+    docker_image_name: library/node
+    docker_image_tag: 22
+    execute_commands:
+    - "# yarn install"
+    - npm install
+    - "# add to your karma.conf.js"
+    - "# browsers: ['ChromeHeadlessCI']"
+    - "# customLaunchers: {"
+    - "#   ChromeHeadlessCI: {"
+    - "#     base: 'ChromeHeadless'"
+    - "#     flags: ['--no-sandbox']"
+    - "#   }"
+    - "# },"
+    - ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
+    setup_commands:
+    - npm install -g @angular/cli
+    - apt-get update
+    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - apt install -y ./google-chrome*.deb;
+    - export CHROME_BIN=/usr/bin/google-chrome
+    shell: BASH
+  - action: ng test --no-watch --no-progress --browsers=ChromeHeadlessCI 2
+    type: BUILD
+    trigger_time: ON_FAILURE
+    disabled: true
+    docker_image_name: library/node
+    docker_image_tag: 22
+    execute_commands:
+    - "# yarn install"
+    - npm install
+    - "# add to your karma.conf.js"
+    - "# browsers: ['ChromeHeadlessCI']"
+    - "# customLaunchers: {"
+    - "#   ChromeHeadlessCI: {"
+    - "#     base: 'ChromeHeadless'"
+    - "#     flags: ['--no-sandbox']"
+    - "#   }"
+    - "# },"
+    - ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
+    setup_commands:
+    - npm install -g @angular/cli
+    - apt-get update
+    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - apt install -y ./google-chrome*.deb;
+    - export CHROME_BIN=/usr/bin/google-chrome
+    shell: BASH
+  - action: Send email
+    type: EMAIL
+    trigger_time: ON_FAILURE
+    title: "$BUDDY_PIPELINE_NAME execution #$BUDDY_RUN_ID"
+    content: There is something error
+    recipients: raufabdur886@gmail.com
+  - action: ng s
+    type: BUILD
+    trigger_time: ON_WARNING
+    disabled: true
+    docker_image_name: library/ubuntu
+    docker_image_tag: 20.04
+    execute_commands:
+    - ng s
+    shell: BASH
