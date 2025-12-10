@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /.vercel/
+Disallow: /.vscode/
+
+Sitemap: https://quiz-by-rauf.vercel.app/sitemap.xml
