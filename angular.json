@@ -137,6 +137,7 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/robots.txt",
               "src/assets",
               {
                 "glob": "**/*",
